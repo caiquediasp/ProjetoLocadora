@@ -10,6 +10,7 @@ public class Plataforma implements ValorTotal{
     public Plataforma(int qtdPlataforma, int tamanhoPlataforma) {
         this.qtdPlataforma = qtdPlataforma;
         this.tamanhoPlataforma = tamanhoPlataforma;
+        this.valorPlataforma = valorTotal();
     }
 
     public int getQtdPlataforma() {

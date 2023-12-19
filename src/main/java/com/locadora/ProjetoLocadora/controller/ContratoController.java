@@ -17,7 +17,7 @@ public class ContratoController {
     private ContratoRepository contratoRepository;
 
     @PostMapping("/adicionarContrato")
-    public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
+    public ResponseEntity<Contrato> adicionarContrato(@RequestBody Contrato contrato) {
         contratoRepository.save(contrato);
 
         return ResponseEntity.ok(contrato);
@@ -39,7 +39,7 @@ public class ContratoController {
     }
 
     @PutMapping("/renovarContrato")
-    public ResponseEntity<Contrato> renovarContrato (String id, Contrato contrato) {
+    public ResponseEntity<Contrato> renovarContrato (String id, @RequestBody Contrato contrato) {
         Contrato contratoRenovado = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontrado("Contrato nao encontrado com Id: " + id));
 

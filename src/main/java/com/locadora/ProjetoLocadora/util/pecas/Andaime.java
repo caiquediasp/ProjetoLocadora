@@ -10,6 +10,7 @@ public class Andaime implements ValorTotal{
     public Andaime(int qtdAndaime, int tamanhoAndaime) {
         this.qtdAndaime = qtdAndaime;
         this.tamanhoAndaime = tamanhoAndaime;
+        this.valorAndaime = valorTotal();
     }
 
     public int getQtdAndaime() {

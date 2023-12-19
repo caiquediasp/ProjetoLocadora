@@ -51,4 +51,8 @@ public class Pecas {
     public void setRoldana(Roldana roldana) {
         this.roldana = roldana;
     }
+
+    public double valorTotal() {
+        return andaime.getValorAndaime() + escora.getValorEscora() + plataforma.getValorPlataforma() + escora.getValorEscora();
+    }
 }

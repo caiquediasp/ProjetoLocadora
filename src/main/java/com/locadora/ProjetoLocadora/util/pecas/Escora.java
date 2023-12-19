@@ -10,6 +10,7 @@ public class Escora implements ValorTotal{
     public Escora(int qtdEscora, int tamanhoEscora) {
         this.qtdEscora = qtdEscora;
         this.tamanhoEscora = tamanhoEscora;
+        this.valorEscora = valorTotal();
     }
 
     public int getQtdEscora() {

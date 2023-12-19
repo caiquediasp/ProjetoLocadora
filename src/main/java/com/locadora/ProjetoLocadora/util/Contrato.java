@@ -15,6 +15,7 @@ public class Contrato {
     private Contratante contratante;
     private Pecas pecas;
     private Endereco endereco;
+    private double valorTotal;
 
     public Contrato() {}
 
@@ -26,6 +27,7 @@ public class Contrato {
         this.contratante = contratante;
         this.pecas = pecas;
         this.endereco = endereco;
+        this.valorTotal = pecas.valorTotal();
     }
 
     public String getId() {
@@ -82,5 +84,9 @@ public class Contrato {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
     }
 }

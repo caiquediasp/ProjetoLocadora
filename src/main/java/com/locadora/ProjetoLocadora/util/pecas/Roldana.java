@@ -8,6 +8,7 @@ public class Roldana implements ValorTotal{
 
     public Roldana(int qtdRoldana) {
         this.qtdRoldana = qtdRoldana;
+        this.valorRoldana = valorTotal();
     }
 
     public int getQtdRoldana() {
