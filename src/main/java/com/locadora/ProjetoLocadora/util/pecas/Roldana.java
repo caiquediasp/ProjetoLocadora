@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Roldana implements ValorTotal{
     private int qtdRoldana;
     private double valorRoldana;

@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Escora implements ValorTotal{
     private int qtdEscora;
     private int tamanhoEscora;

@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Plataforma implements ValorTotal{
     private int qtdPlataforma;
     private int tamanhoPlataforma;

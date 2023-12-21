@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Andaime implements ValorTotal{
     private int qtdAndaime;
     private int tamanhoAndaime;

@@ -1,5 +1,6 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -88,5 +89,9 @@ public class Contrato {
 
     public double getValorTotal() {
         return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal){
+        this.valorTotal = valorTotal;
     }
 }
