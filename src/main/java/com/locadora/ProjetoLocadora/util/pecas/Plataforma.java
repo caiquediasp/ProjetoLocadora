@@ -1,10 +1,16 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Plataforma implements ValorTotal{
+    @Column(name = "qtd_plataforma", nullable = false)
     private int qtdPlataforma;
+    @Column(name = "tam_plataforma")
     private int tamanhoPlataforma;
+    @Column(name = "valor_plataforma", nullable = false)
     private double valorPlataforma;
 
     public Plataforma() {}
@@ -12,7 +18,7 @@ public class Plataforma implements ValorTotal{
     public Plataforma(int qtdPlataforma, int tamanhoPlataforma) {
         this.qtdPlataforma = qtdPlataforma;
         this.tamanhoPlataforma = tamanhoPlataforma;
-        this.valorPlataforma = valorTotal();
+        valorTotal();
     }
 
     public int getQtdPlataforma() {
@@ -40,7 +46,7 @@ public class Plataforma implements ValorTotal{
     }
 
     @Override
-    public double valorTotal() {
+    public void valorTotal() {
         switch (getTamanhoPlataforma()) {
             case 1:
                 if (getQtdPlataforma() <= 15) {
@@ -70,7 +76,5 @@ public class Plataforma implements ValorTotal{
                     setValorPlataforma(4.35 * getQtdPlataforma());
                 }
         }
-
-        return getValorPlataforma();
     }
 }

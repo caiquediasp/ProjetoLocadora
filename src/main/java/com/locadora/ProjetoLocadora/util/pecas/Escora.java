@@ -1,18 +1,24 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Escora implements ValorTotal{
+    @Column(name = "qtd_escora", nullable = false)
     private int qtdEscora;
+    @Column(name = "tam_escora")
     private int tamanhoEscora;
-    private double valorEscora;
+    @Column(name = "valor_escora", nullable = false)
+    private double valorEscora = 0;
 
     public Escora() {}
 
     public Escora(int qtdEscora, int tamanhoEscora) {
         this.qtdEscora = qtdEscora;
         this.tamanhoEscora = tamanhoEscora;
-        this.valorEscora = valorTotal();
+        valorTotal();
     }
 
     public int getQtdEscora() {
@@ -40,7 +46,7 @@ public class Escora implements ValorTotal{
     }
 
     @Override
-    public double valorTotal() {
+    public void valorTotal() {
         switch (getTamanhoEscora()) {
             case 1:
                 if (getQtdEscora() <= 15) {
@@ -70,7 +76,5 @@ public class Escora implements ValorTotal{
                     setValorEscora(5.00 * getQtdEscora());
                 }
         }
-
-        return getValorEscora();
     }
 }

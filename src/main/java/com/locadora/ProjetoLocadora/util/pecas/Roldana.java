@@ -1,16 +1,21 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Roldana implements ValorTotal{
+    @Column(name = "qtd_roldana", nullable = false)
     private int qtdRoldana;
+    @Column(name = "valor_roldana", nullable = false)
     private double valorRoldana;
 
     public Roldana() {}
 
     public Roldana(int qtdRoldana) {
         this.qtdRoldana = qtdRoldana;
-        this.valorRoldana = valorTotal();
+        valorTotal();
     }
 
     public int getQtdRoldana() {
@@ -30,7 +35,7 @@ public class Roldana implements ValorTotal{
     }
 
     @Override
-    public double valorTotal() {
+    public void valorTotal() {
         if(getQtdRoldana() <= 15){
             setValorRoldana(3.25 * getQtdRoldana());
         }
@@ -39,7 +44,5 @@ public class Roldana implements ValorTotal{
         } else{
             setValorRoldana(2.50 * getQtdRoldana());
         }
-
-        return getValorRoldana();
     }
 }

@@ -1,18 +1,24 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Andaime implements ValorTotal{
+    @Column(name = "qtd_andaime", nullable = false)
     private int qtdAndaime;
+    @Column(name = "tam_andaime")
     private int tamanhoAndaime;
-    private double valorAndaime;
+    @Column(name = "valor_andaime", nullable = false)
+    private double valorAndaime = 0;
 
     public Andaime() {}
 
     public Andaime(int qtdAndaime, int tamanhoAndaime) {
         this.qtdAndaime = qtdAndaime;
         this.tamanhoAndaime = tamanhoAndaime;
-        this.valorAndaime = valorTotal();
+        valorTotal();
     }
 
     public int getQtdAndaime() {
@@ -40,9 +46,7 @@ public class Andaime implements ValorTotal{
     }
 
     @Override
-    public double valorTotal() {
-        double valor = 0;
-
+    public void valorTotal() {
         switch (getTamanhoAndaime()) {
             case 1:
                 if (getQtdAndaime() <= 20) {
@@ -72,7 +76,5 @@ public class Andaime implements ValorTotal{
                     setValorAndaime(3.00 * getQtdAndaime());
                 }
         }
-
-        return getValorAndaime();
     }
 }

@@ -1,21 +1,34 @@
 package com.locadora.ProjetoLocadora.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.locadora.ProjetoLocadora.generator.IdGenerator;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 
-@Document("contratos")
+@Entity
+@Table(name = "tb_contrato")
 public class Contrato {
     @Id
+    @GeneratedValue(generator = IdGenerator.generatorName)
+    @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     private String id;
+    @Column(name = "data_locacao", nullable = false)
     private LocalDate dataLocacao;
+    @Column(name = "data_devolucao", nullable = false)
     private LocalDate dataDevolucao;
+    @Column(name = "forma_pagamento", nullable = false)
+    @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
+    @ManyToOne
+    @JoinColumn(name = "cpf_contratante")
     private Contratante contratante;
+    @OneToOne(mappedBy = "contrato")
     private Pecas pecas;
+    @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
     private Endereco endereco;
+    @Column(name = "valor_total", nullable = false)
     private double valorTotal;
 
     public Contrato() {}

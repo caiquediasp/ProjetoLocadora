@@ -4,12 +4,22 @@ import com.locadora.ProjetoLocadora.util.pecas.Andaime;
 import com.locadora.ProjetoLocadora.util.pecas.Escora;
 import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
 import com.locadora.ProjetoLocadora.util.pecas.Roldana;
+import jakarta.persistence.*;
 
-public class Pecas {
+@Table(name = "tb_pecas")
+public class Pecas{
+    @Embedded
     private Andaime andaime;
+    @Embedded
     private Escora escora;
+    @Embedded
     private Plataforma plataforma;
+    @Embedded
     private Roldana roldana;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id_contrato")
+    private Contrato contrato;
 
     public Pecas() {}
 

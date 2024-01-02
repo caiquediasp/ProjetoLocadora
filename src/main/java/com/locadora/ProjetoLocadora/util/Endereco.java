@@ -1,10 +1,21 @@
 package com.locadora.ProjetoLocadora.util;
 
+import jakarta.persistence.*;
+
+@Table(name = "tb_endereco")
 public class Endereco {
+    @Column(name = "cep", nullable = false)
     private String cep;
+    @Column(name = "bairro", nullable = false)
     private String bairro;
+    @Column(name = "rua", nullable = false)
     private String rua;
+    @Column(name = "numero", nullable = false)
     private int numero;
+    @ManyToOne
+    @MapsId
+    @JoinColumn(name = "id_contrato", unique = true)
+    private Contrato contrato;
 
     public Endereco() {}
 
@@ -45,5 +56,13 @@ public class Endereco {
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
     }
 }
