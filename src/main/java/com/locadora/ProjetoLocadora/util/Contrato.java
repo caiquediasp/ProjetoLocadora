@@ -1,18 +1,19 @@
 package com.locadora.ProjetoLocadora.util;
 
-import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_contrato")
 public class Contrato {
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(32)")
     @Id
-    @GeneratedValue(generator = IdGenerator.generatorName)
-    @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     private String id;
     @Column(name = "data_locacao", nullable = false)
     private LocalDate dataLocacao;
@@ -21,7 +22,7 @@ public class Contrato {
     @Column(name = "forma_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "cpf_contratante")
     private Contratante contratante;
     @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL)

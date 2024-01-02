@@ -21,6 +21,8 @@ public class Pecas{
     @Embedded
     private Roldana roldana;
 
+    public Pecas() {}
+
     public Pecas(Andaime andaime, Escora escora, Plataforma plataforma, Roldana roldana) {
         this.andaime = andaime;
         this.escora = escora;

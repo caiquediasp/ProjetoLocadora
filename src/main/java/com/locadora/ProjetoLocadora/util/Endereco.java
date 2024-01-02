@@ -18,6 +18,8 @@ public class Endereco {
     @Column(name = "numero", nullable = false)
     private int numero;
 
+    public Endereco() {}
+
     public Endereco(String cep, String bairro, String rua, int numero) {
         this.cep = cep;
         this.bairro = bairro;

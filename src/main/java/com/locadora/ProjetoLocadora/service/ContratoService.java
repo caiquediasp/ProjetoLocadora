@@ -1,6 +1,8 @@
 package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.dao.ContratoDAO;
+import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
+import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.util.Contrato;
 import com.locadora.ProjetoLocadora.util.FormaPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,10 @@ import java.util.List;
 public class ContratoService {
     @Autowired
     private ContratoDAO contratoDAO;
+    @Autowired
+    private ContratoRepository contratoRepository;
+    @Autowired
+    private ContratanteRepository contratanteRepository;
 
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
         contrato.getPecas().getAndaime().valorTotal();

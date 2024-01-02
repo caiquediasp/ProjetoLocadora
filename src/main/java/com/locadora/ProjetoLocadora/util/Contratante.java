@@ -2,6 +2,7 @@ package com.locadora.ProjetoLocadora.util;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,8 +15,8 @@ public class Contratante {
     @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @OneToMany(mappedBy = "contratante", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Contrato> contratos;
+    @OneToMany(mappedBy = "contratante", orphanRemoval = true)
+    private List<Contrato> contratos = new ArrayList<>();
 
     public Contratante() {}
 
@@ -49,4 +50,11 @@ public class Contratante {
         this.telefone = telefone;
     }
 
+    public List<Contrato> getContratos() {
+        return contratos;
+    }
+
+    public void setContratos(List<Contrato> contratos) {
+        this.contratos = contratos;
+    }
 }

@@ -1,7 +1,10 @@
 package com.locadora.ProjetoLocadora.dao;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontrado;
+import com.locadora.ProjetoLocadora.generator.IdGenerator;
+import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
+import com.locadora.ProjetoLocadora.util.Contratante;
 import com.locadora.ProjetoLocadora.util.Contrato;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +17,18 @@ import java.util.List;
 public class ContratoDAOImpl implements ContratoDAO{
     @Autowired
     private ContratoRepository contratoRepository;
+    @Autowired
+    private ContratanteRepository contratanteRepository;
 
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
+        Contratante contratante = contrato.getContratante();
+
+        if(!contratanteRepository.existsById(contratante.getCpf())) {
+            contratanteRepository.save(contratante);
+        }
+
+        contratante.getContratos().add(contrato);
+        contratanteRepository.save(contratante);
         contratoRepository.save(contrato);
 
         return ResponseEntity.ok(contrato);
