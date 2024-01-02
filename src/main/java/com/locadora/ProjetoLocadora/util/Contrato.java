@@ -21,12 +21,12 @@ public class Contrato {
     @Column(name = "forma_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf_contratante")
     private Contratante contratante;
-    @OneToOne(mappedBy = "contrato")
+    @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL)
     private Pecas pecas;
-    @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL)
     private Endereco endereco;
     @Column(name = "valor_total", nullable = false)
     private double valorTotal;

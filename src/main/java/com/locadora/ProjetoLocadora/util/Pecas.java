@@ -5,9 +5,13 @@ import com.locadora.ProjetoLocadora.util.pecas.Escora;
 import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
 import com.locadora.ProjetoLocadora.util.pecas.Roldana;
 import jakarta.persistence.*;
-
+@Entity
 @Table(name = "tb_pecas")
 public class Pecas{
+    @Id
+    @OneToOne
+    @JoinColumn(name = "id_contrato")
+    private Contrato contrato;
     @Embedded
     private Andaime andaime;
     @Embedded
@@ -16,12 +20,6 @@ public class Pecas{
     private Plataforma plataforma;
     @Embedded
     private Roldana roldana;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id_contrato")
-    private Contrato contrato;
-
-    public Pecas() {}
 
     public Pecas(Andaime andaime, Escora escora, Plataforma plataforma, Roldana roldana) {
         this.andaime = andaime;

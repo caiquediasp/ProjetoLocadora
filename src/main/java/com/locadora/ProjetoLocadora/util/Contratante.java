@@ -19,11 +19,10 @@ public class Contratante {
 
     public Contratante() {}
 
-    public Contratante(String cpf, String nome, String telefone, List<Contrato> contratos) {
+    public Contratante(String cpf, String nome, String telefone) {
         this.cpf = cpf;
         this.nome = nome;
         this.telefone = telefone;
-        this.contratos = contratos;
     }
 
     public String getCpf() {
@@ -50,11 +49,4 @@ public class Contratante {
         this.telefone = telefone;
     }
 
-    public List<Contrato> getContratos() {
-        return contratos;
-    }
-
-    public void setContratos(List<Contrato> contratos) {
-        this.contratos = contratos;
-    }
 }
