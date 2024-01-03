@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "tb_endereco")
 public class Endereco {
     @Id
-    @Column(columnDefinition = "VARCHAR(32)")
-    private String id;
+    @Column(name = "id_contrato", unique = true, nullable = false)
+    private Long id;
     @OneToOne
     @JoinColumn(name = "id", unique = true)
     private Contrato contrato;
@@ -22,7 +22,7 @@ public class Endereco {
 
     public Endereco() {}
 
-    public Endereco(String id, Contrato contrato, String cep, String bairro, String rua, int numero) {
+    public Endereco(Long id, Contrato contrato, String cep, String bairro, String rua, int numero) {
         this.id = id;
         this.contrato = contrato;
         this.cep = cep;
@@ -31,11 +31,11 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

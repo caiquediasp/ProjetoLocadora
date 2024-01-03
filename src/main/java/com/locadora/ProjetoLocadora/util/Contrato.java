@@ -3,7 +3,6 @@ package com.locadora.ProjetoLocadora.util;
 import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 
@@ -11,10 +10,9 @@ import java.time.LocalDate;
 @Table(name = "tb_contrato")
 public class Contrato {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "VARCHAR(32)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
     @Column(name = "data_locacao", nullable = false)
     private LocalDate dataLocacao;
     @Column(name = "data_devolucao", nullable = false)
@@ -34,7 +32,7 @@ public class Contrato {
 
     public Contrato() {}
 
-    public Contrato(String id, LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas, Endereco endereco) {
+    public Contrato(Long id, LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas, Endereco endereco) {
         this.id = id;
         this.dataLocacao = dataLocacao;
         this.dataDevolucao = dataDevolucao;
@@ -45,11 +43,11 @@ public class Contrato {
         this.valorTotal = pecas.valorTotal();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,19 +1,18 @@
 package com.locadora.ProjetoLocadora.dao;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontrado;
-import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
 import com.locadora.ProjetoLocadora.repository.PecasRepository;
 import com.locadora.ProjetoLocadora.util.Contratante;
 import com.locadora.ProjetoLocadora.util.Contrato;
-import com.locadora.ProjetoLocadora.util.Endereco;
 import com.locadora.ProjetoLocadora.util.Pecas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,17 +27,16 @@ public class ContratoDAOImpl implements ContratoDAO{
     @Autowired
     private PecasRepository pecasRepository;
 
+    @Transactional
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
         Contratante contratante = contrato.getContratante();
-        Endereco endereco = contrato.getEndereco();
         Pecas pecas = contrato.getPecas();
 
         if(!contratanteRepository.existsById(contratante.getCpf())) {
             contratanteRepository.save(contratante);
         }
-
         contratante.getContratos().add(contrato);
-        endereco.setId(contrato.getId());
+
         contratanteRepository.save(contratante);
         contratoRepository.save(contrato);
         pecasRepository.save(pecas);
