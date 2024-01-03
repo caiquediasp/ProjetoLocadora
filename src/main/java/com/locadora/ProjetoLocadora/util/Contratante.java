@@ -14,7 +14,6 @@ public class Contratante {
     private String nome;
     @Column(name = "telefone", nullable = false)
     private String telefone;
-
     @OneToMany(mappedBy = "contratante", orphanRemoval = true)
     private List<Contrato> contratos = new ArrayList<>();
 

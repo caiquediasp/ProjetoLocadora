@@ -10,10 +10,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "tb_contrato")
 public class Contrato {
+    @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
-    @Id
+    @Column(columnDefinition = "VARCHAR(32)")
     private String id;
     @Column(name = "data_locacao", nullable = false)
     private LocalDate dataLocacao;

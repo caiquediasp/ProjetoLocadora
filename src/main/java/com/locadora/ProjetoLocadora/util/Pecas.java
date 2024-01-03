@@ -9,8 +9,10 @@ import jakarta.persistence.*;
 @Table(name = "tb_pecas")
 public class Pecas{
     @Id
+    @Column(name = "id_contrato", columnDefinition = "VARCHAR(32)")
+    private String id;
     @OneToOne
-    @JoinColumn(name = "id_contrato")
+    @JoinColumn(name = "id")
     private Contrato contrato;
     @Embedded
     private Andaime andaime;
