@@ -1,8 +1,10 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 
@@ -10,9 +12,10 @@ import java.time.LocalDate;
 @Table(name = "tb_contrato")
 public class Contrato {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = IdGenerator.generatorName)
+    @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id", unique = true, nullable = false)
-    private Long id;
+    private String id;
     @Column(name = "data_locacao", nullable = false)
     private LocalDate dataLocacao;
     @Column(name = "data_devolucao", nullable = false)
@@ -23,16 +26,16 @@ public class Contrato {
     @ManyToOne
     @JoinColumn(name = "cpf_contratante")
     private Contratante contratante;
-    @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL)
-    private Pecas pecas;
-    @OneToOne(mappedBy = "contrato", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Pecas pecas;
     @Column(name = "valor_total", nullable = false)
     private double valorTotal;
 
     public Contrato() {}
 
-    public Contrato(Long id, LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas, Endereco endereco) {
+    public Contrato(String id, LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas, Endereco endereco) {
         this.id = id;
         this.dataLocacao = dataLocacao;
         this.dataDevolucao = dataDevolucao;
@@ -43,11 +46,11 @@ public class Contrato {
         this.valorTotal = pecas.valorTotal();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -89,6 +92,7 @@ public class Contrato {
 
     public void setPecas(Pecas pecas) {
         this.pecas = pecas;
+        this.pecas.setContrato(this);
     }
 
     public Endereco getEndereco() {
@@ -97,6 +101,7 @@ public class Contrato {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+        this.endereco.setContrato(this);
     }
 
     public double getValorTotal() {

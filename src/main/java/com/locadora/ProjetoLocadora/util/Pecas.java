@@ -9,10 +9,10 @@ import jakarta.persistence.*;
 @Table(name = "tb_pecas")
 public class Pecas{
     @Id
-    @Column(name = "id_contrato")
-    private Long id;
+    @Column(name = "id")
+    private String id;
     @OneToOne
-    @JoinColumn(name = "id")
+    @MapsId
     private Contrato contrato;
     @Embedded
     private Andaime andaime;
@@ -25,11 +25,20 @@ public class Pecas{
 
     public Pecas() {}
 
-    public Pecas(Andaime andaime, Escora escora, Plataforma plataforma, Roldana roldana) {
+    public Pecas(String id, Andaime andaime, Escora escora, Plataforma plataforma, Roldana roldana) {
+        this.id = id;
         this.andaime = andaime;
         this.escora = escora;
         this.plataforma = plataforma;
         this.roldana = roldana;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Andaime getAndaime() {
@@ -62,6 +71,14 @@ public class Pecas{
 
     public void setRoldana(Roldana roldana) {
         this.roldana = roldana;
+    }
+
+    public Contrato getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
     }
 
     public double valorTotal() {

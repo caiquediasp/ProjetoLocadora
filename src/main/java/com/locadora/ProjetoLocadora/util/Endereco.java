@@ -6,11 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "tb_endereco")
 public class Endereco {
     @Id
-    @Column(name = "id_contrato", unique = true, nullable = false)
-    private Long id;
-    @OneToOne
-    @JoinColumn(name = "id", unique = true)
-    private Contrato contrato;
+    @Column(name = "id")
+    private String id;
     @Column(name = "cep", nullable = false)
     private String cep;
     @Column(name = "bairro", nullable = false)
@@ -19,23 +16,25 @@ public class Endereco {
     private String rua;
     @Column(name = "numero", nullable = false)
     private int numero;
+    @OneToOne
+    @MapsId
+    private Contrato contrato;
 
     public Endereco() {}
 
-    public Endereco(Long id, Contrato contrato, String cep, String bairro, String rua, int numero) {
+    public Endereco(String id, String cep, String bairro, String rua, int numero) {
         this.id = id;
-        this.contrato = contrato;
         this.cep = cep;
         this.bairro = bairro;
         this.rua = rua;
         this.numero = numero;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

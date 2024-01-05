@@ -7,7 +7,9 @@ import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
 import com.locadora.ProjetoLocadora.repository.PecasRepository;
 import com.locadora.ProjetoLocadora.util.Contratante;
 import com.locadora.ProjetoLocadora.util.Contrato;
+import com.locadora.ProjetoLocadora.util.Endereco;
 import com.locadora.ProjetoLocadora.util.Pecas;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,23 +25,24 @@ public class ContratoDAOImpl implements ContratoDAO{
     @Autowired
     private ContratanteRepository contratanteRepository;
     @Autowired
-    private EnderecoRepository enderecoRepository;
-    @Autowired
     private PecasRepository pecasRepository;
 
     @Transactional
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
         Contratante contratante = contrato.getContratante();
         Pecas pecas = contrato.getPecas();
-
+        /*
         if(!contratanteRepository.existsById(contratante.getCpf())) {
             contratanteRepository.save(contratante);
         }
         contratante.getContratos().add(contrato);
 
+        contrato.getEndereco().setId(contrato.getId());
+
+         */
         contratanteRepository.save(contratante);
         contratoRepository.save(contrato);
-        pecasRepository.save(pecas);
+        //pecasRepository.save(pecas);
 
         return ResponseEntity.ok(contrato);
     }
