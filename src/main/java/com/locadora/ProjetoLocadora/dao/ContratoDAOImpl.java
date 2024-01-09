@@ -30,6 +30,7 @@ public class ContratoDAOImpl implements ContratoDAO{
     @Transactional
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
         Contratante contratante = contrato.getContratante();
+        Endereco endereco = contrato.getEndereco();
         Pecas pecas = contrato.getPecas();
         /*
         if(!contratanteRepository.existsById(contratante.getCpf())) {
@@ -37,12 +38,11 @@ public class ContratoDAOImpl implements ContratoDAO{
         }
         contratante.getContratos().add(contrato);
 
+         */
+        //contratanteRepository.save(contratante);
         contrato.getEndereco().setId(contrato.getId());
 
-         */
-        contratanteRepository.save(contratante);
         contratoRepository.save(contrato);
-        //pecasRepository.save(pecas);
 
         return ResponseEntity.ok(contrato);
     }

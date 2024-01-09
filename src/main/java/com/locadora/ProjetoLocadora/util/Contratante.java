@@ -14,7 +14,7 @@ public class Contratante {
     private String nome;
     @Column(name = "telefone", nullable = false)
     private String telefone;
-    @OneToMany(mappedBy = "contratante", orphanRemoval = true)
+    @OneToMany(mappedBy = "contratante")
     private List<Contrato> contratos = new ArrayList<>();
 
     public Contratante() {}
@@ -53,7 +53,7 @@ public class Contratante {
         return contratos;
     }
 
-    public void setContratos(List<Contrato> contratos) {
-        this.contratos = contratos;
+    public void setContratos(List<Contrato> contrato) {
+        this.contratos = contrato;
     }
 }

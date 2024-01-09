@@ -1,19 +1,26 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import com.locadora.ProjetoLocadora.util.pecas.Andaime;
 import com.locadora.ProjetoLocadora.util.pecas.Escora;
 import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
 import com.locadora.ProjetoLocadora.util.pecas.Roldana;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tb_pecas")
 public class Pecas{
     @Id
+    @GeneratedValue(generator = IdGenerator.generatorName)
+    @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id")
     private String id;
-    @OneToOne
-    @MapsId
-    private Contrato contrato;
+    @OneToMany(mappedBy = "pecas")
+    private List<Contrato> contratos = new ArrayList<>();
     @Embedded
     private Andaime andaime;
     @Embedded
@@ -25,8 +32,7 @@ public class Pecas{
 
     public Pecas() {}
 
-    public Pecas(String id, Andaime andaime, Escora escora, Plataforma plataforma, Roldana roldana) {
-        this.id = id;
+    public Pecas(Andaime andaime, Escora escora, Plataforma plataforma, Roldana roldana) {
         this.andaime = andaime;
         this.escora = escora;
         this.plataforma = plataforma;
@@ -73,12 +79,12 @@ public class Pecas{
         this.roldana = roldana;
     }
 
-    public Contrato getContrato() {
-        return contrato;
+    public List<Contrato> getContrato() {
+        return contratos;
     }
 
-    public void setContrato(Contrato contrato) {
-        this.contrato = contrato;
+    public void setContrato(List<Contrato> contratos) {
+        this.contratos = contratos;
     }
 
     public double valorTotal() {

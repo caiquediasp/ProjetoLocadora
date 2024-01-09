@@ -1,13 +1,22 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_endereco")
 public class Endereco {
     @Id
+    @GeneratedValue(generator = IdGenerator.generatorName)
+    @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id")
     private String id;
+    @OneToMany(mappedBy = "endereco")
+    private List<Contrato> contratos = new ArrayList<>();
     @Column(name = "cep", nullable = false)
     private String cep;
     @Column(name = "bairro", nullable = false)
@@ -16,14 +25,10 @@ public class Endereco {
     private String rua;
     @Column(name = "numero", nullable = false)
     private int numero;
-    @OneToOne
-    @MapsId
-    private Contrato contrato;
 
     public Endereco() {}
 
-    public Endereco(String id, String cep, String bairro, String rua, int numero) {
-        this.id = id;
+    public Endereco(String cep, String bairro, String rua, int numero) {
         this.cep = cep;
         this.bairro = bairro;
         this.rua = rua;
@@ -38,12 +43,12 @@ public class Endereco {
         this.id = id;
     }
 
-    public Contrato getContrato() {
-        return contrato;
+    public List<Contrato> getContrato() {
+        return contratos;
     }
 
-    public void setContrato(Contrato contrato) {
-        this.contrato = contrato;
+    public void setContrato(List<Contrato> contratos) {
+        this.contratos = contratos;
     }
 
     public String getCep() {

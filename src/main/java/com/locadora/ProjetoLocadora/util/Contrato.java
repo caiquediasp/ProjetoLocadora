@@ -16,6 +16,15 @@ public class Contrato {
     @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id", unique = true, nullable = false)
     private String id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cpf_contratante", referencedColumnName = "cpf", nullable = false)
+    private Contratante contratante;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco", referencedColumnName = "id", nullable = false)
+    private Endereco endereco;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_pecas", referencedColumnName = "id", nullable = false)
+    private Pecas pecas;
     @Column(name = "data_locacao", nullable = false)
     private LocalDate dataLocacao;
     @Column(name = "data_devolucao", nullable = false)
@@ -23,26 +32,17 @@ public class Contrato {
     @Column(name = "forma_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
-    @ManyToOne
-    @JoinColumn(name = "cpf_contratante")
-    private Contratante contratante;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Endereco endereco;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Pecas pecas;
     @Column(name = "valor_total", nullable = false)
     private double valorTotal;
 
     public Contrato() {}
 
-    public Contrato(String id, LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas, Endereco endereco) {
-        this.id = id;
+    public Contrato(LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas) {
         this.dataLocacao = dataLocacao;
         this.dataDevolucao = dataDevolucao;
         this.formaPagamento = formaPagamento;
         this.contratante = contratante;
         this.pecas = pecas;
-        this.endereco = endereco;
         this.valorTotal = pecas.valorTotal();
     }
 
@@ -92,7 +92,6 @@ public class Contrato {
 
     public void setPecas(Pecas pecas) {
         this.pecas = pecas;
-        this.pecas.setContrato(this);
     }
 
     public Endereco getEndereco() {
@@ -101,7 +100,7 @@ public class Contrato {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
-        this.endereco.setContrato(this);
+        //this.endereco.setContrato(this);
     }
 
     public double getValorTotal() {
