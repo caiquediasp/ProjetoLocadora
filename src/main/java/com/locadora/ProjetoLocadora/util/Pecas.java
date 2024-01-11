@@ -88,6 +88,10 @@ public class Pecas{
     }
 
     public double valorTotal() {
+        andaime.valorTotal();
+        escora.valorTotal();
+        plataforma.valorTotal();
+        escora.valorTotal();
         return andaime.getValorAndaime() + escora.getValorEscora() + plataforma.getValorPlataforma() + escora.getValorEscora();
     }
 }

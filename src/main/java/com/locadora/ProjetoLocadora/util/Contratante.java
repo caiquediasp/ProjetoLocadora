@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Contratante {
     @Column(name = "telefone", nullable = false)
     private String telefone;
     @OneToMany(mappedBy = "contratante")
+    @JsonIgnore
     private List<Contrato> contratos = new ArrayList<>();
 
     public Contratante() {}
@@ -49,6 +52,7 @@ public class Contratante {
         this.telefone = telefone;
     }
 
+    @JsonManagedReference
     public List<Contrato> getContratos() {
         return contratos;
     }

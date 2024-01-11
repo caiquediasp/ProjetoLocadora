@@ -1,15 +1,12 @@
-package com.locadora.ProjetoLocadora.dao;
+package com.locadora.ProjetoLocadora.dao.impl;
 
+import com.locadora.ProjetoLocadora.dao.ContratoDAO;
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontrado;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
 import com.locadora.ProjetoLocadora.repository.PecasRepository;
-import com.locadora.ProjetoLocadora.util.Contratante;
 import com.locadora.ProjetoLocadora.util.Contrato;
-import com.locadora.ProjetoLocadora.util.Endereco;
-import com.locadora.ProjetoLocadora.util.Pecas;
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,40 +16,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public class ContratoDAOImpl implements ContratoDAO{
+public class ContratoDAOImpl implements ContratoDAO {
     @Autowired
     private ContratoRepository contratoRepository;
     @Autowired
     private ContratanteRepository contratanteRepository;
     @Autowired
+    private EnderecoRepository enderecoRepository;
+    @Autowired
     private PecasRepository pecasRepository;
 
     @Transactional
+    @Override
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
-        Contratante contratante = contrato.getContratante();
-        Endereco endereco = contrato.getEndereco();
-        Pecas pecas = contrato.getPecas();
-        /*
-        if(!contratanteRepository.existsById(contratante.getCpf())) {
-            contratanteRepository.save(contratante);
-        }
-        contratante.getContratos().add(contrato);
-
-         */
-        //contratanteRepository.save(contratante);
-        contrato.getEndereco().setId(contrato.getId());
-
         contratoRepository.save(contrato);
 
         return ResponseEntity.ok(contrato);
     }
 
+    @Override
     public ResponseEntity<List<Contrato>> listarContratos() {
         List<Contrato> listaContratos = contratoRepository.findAll();
 
         return ResponseEntity.ok(listaContratos);
     }
 
+    @Override
     public ResponseEntity<Contrato> buscarPorId (String id) {
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontrado("Contrato nao encontrado com Id: " + id));
@@ -60,6 +49,7 @@ public class ContratoDAOImpl implements ContratoDAO{
         return ResponseEntity.ok(contrato);
     }
 
+    @Override
     public ResponseEntity<Contrato> renovarContrato (String id, Contrato contrato) {
         Contrato contratoRenovado = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontrado("Contrato nao encontrado com Id: " + id));
@@ -69,13 +59,18 @@ public class ContratoDAOImpl implements ContratoDAO{
         contratoRenovado.setFormaPagamento(contrato.getFormaPagamento());
         contratoRenovado.setContratante(contrato.getContratante());
         contratoRenovado.setPecas(contrato.getPecas());
-        contratoRenovado.setEndereco(contrato.getEndereco());
+        contratoRenovado.getEndereco().setCep(contrato.getEndereco().getCep());
+        contratoRenovado.getEndereco().setBairro(contrato.getEndereco().getBairro());
+        contratoRenovado.getEndereco().setRua(contrato.getEndereco().getRua());
+        contratoRenovado.getEndereco().setNumero(contrato.getEndereco().getNumero());
+        contratoRenovado.getEndereco().getContrato().add(contrato);
 
         contratoRepository.save(contratoRenovado);
 
         return ResponseEntity.ok(contratoRenovado);
     }
 
+    @Override
     public ResponseEntity<Contrato> excluirContrato (String id) {
         contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontrado("Contrato nao encontrado com Id: " + id));

@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
@@ -78,6 +80,7 @@ public class Contrato {
         this.formaPagamento = formaPagamento;
     }
 
+    @JsonBackReference
     public Contratante getContratante() {
         return contratante;
     }
@@ -93,14 +96,13 @@ public class Contrato {
     public void setPecas(Pecas pecas) {
         this.pecas = pecas;
     }
-
+    @JsonBackReference
     public Endereco getEndereco() {
         return endereco;
     }
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
-        //this.endereco.setContrato(this);
     }
 
     public double getValorTotal() {

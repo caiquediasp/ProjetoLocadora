@@ -1,5 +1,6 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -43,6 +44,7 @@ public class Endereco {
         this.id = id;
     }
 
+    @JsonManagedReference
     public List<Contrato> getContrato() {
         return contratos;
     }
