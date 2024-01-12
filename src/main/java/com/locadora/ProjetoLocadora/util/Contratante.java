@@ -52,7 +52,7 @@ public class Contratante {
         this.telefone = telefone;
     }
 
-    @JsonManagedReference
+    //@JsonManagedReference
     public List<Contrato> getContratos() {
         return contratos;
     }

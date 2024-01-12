@@ -25,6 +25,21 @@ public class ContratoController {
         return contratoService.listarContratos();
     }
 
+    @GetMapping("/listarContratosPorContratante/{cpf}")
+    public ResponseEntity<List<Contrato>> listarContratosPorContratante(@PathVariable("cpf") String cpf) {
+        return contratoService.listarContratosPorContratante(cpf);
+    }
+
+    @GetMapping("/listarContratosAtivos")
+    public ResponseEntity<List<Contrato>> listarContratosAtivos() {
+        return contratoService.listarContratosAtivos();
+    }
+
+    @GetMapping("/listarContratosVencidos")
+    public ResponseEntity<List<Contrato>> listarContratosVencidos() {
+        return contratoService.listarContratosVencidos();
+    }
+
     @GetMapping("/buscarPorId/{id}")
     public ResponseEntity<Contrato> buscarPorId (@PathVariable("id") String id) {
         return contratoService.buscarPorId(id);

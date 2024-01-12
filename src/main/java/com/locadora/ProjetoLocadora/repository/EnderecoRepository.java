@@ -9,10 +9,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, String> {
 
-    @Query(value = "SELECT * FROM tb_endereco e WHERE e.cep = :cep and e.bairro = :bairro and e.rua = :rua and e.numero = :numero",
-            nativeQuery = true)
-    Endereco verificarEnderecoExistente(
-            @Param("cep") String cep, @Param("bairro") String bairro, @Param("rua") String rua, @Param("numero") Integer numero);
+    @Query(value = "SELECT * FROM tb_endereco e WHERE e.cep = :cep and e.bairro = :bairro and e.rua = :rua and e.numero = :numero"
+            , nativeQuery = true)
+    Endereco verificarEnderecoExistente (
+            @Param("cep") String cep
+            , @Param("bairro") String bairro
+            , @Param("rua") String rua
+            , @Param("numero") Integer numero
+    );
 
 
 }

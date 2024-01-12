@@ -44,7 +44,7 @@ public class Endereco {
         this.id = id;
     }
 
-    @JsonManagedReference
+    //@JsonManagedReference
     public List<Contrato> getContrato() {
         return contratos;
     }
