@@ -1,6 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,9 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_contrato")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Contrato {
     @Id
     @GeneratedValue(generator = IdGenerator.generatorName)

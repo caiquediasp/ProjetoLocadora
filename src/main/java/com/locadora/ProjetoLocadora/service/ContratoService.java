@@ -54,7 +54,7 @@ public class ContratoService {
         return ResponseEntity.ok(contrato);
     }
 
-    public ResponseEntity<List<Contrato>> listarContratos() {
+    public ResponseEntity<List<Contrato>> listarTodosContratos() {
         List<Contrato> listaContratos = contratoRepository.findAll();
 
         return ResponseEntity.ok(listaContratos);
@@ -89,15 +89,13 @@ public class ContratoService {
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontrado("Contrato não encontrado com Id: " + id));
 
-        contrato.getPecas().getAndaime().valorTotal();
-        contrato.getPecas().getEscora().valorTotal();
-        contrato.getPecas().getPlataforma().valorTotal();
-        contrato.getPecas().getRoldana().valorTotal();
-
-        contrato.setValorTotal(contratoRenovado.getPecas().valorTotal());
-        if(contrato.getFormaPagamento() != FormaPagamento.CREDITO) {
-            contrato.setValorTotal(contratoRenovado.getValorTotal() * 0.95);
-        }
+        contrato.setContratante(contratoRenovado.getContratante());
+        contrato.setEndereco(contratoRenovado.getEndereco());
+        contrato.setPecas(contratoRenovado.getPecas());
+        contrato.setDataLocacao(contratoRenovado.getDataLocacao());
+        contrato.setDataDevolucao(contratoRenovado.getDataDevolucao());
+        contrato.setFormaPagamento(contratoRenovado.getFormaPagamento());
+        contrato.setValorTotal(contrato.getPecas().valorTotal());
 
         contratoRepository.save(contrato);
 

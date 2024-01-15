@@ -20,9 +20,9 @@ public class ContratoController {
         return contratoService.adicionarContrato(contrato);
     }
 
-    @GetMapping("/listarContratos")
-    public ResponseEntity<List<Contrato>> listarContratos() {
-        return contratoService.listarContratos();
+    @GetMapping("/listarTodosContratos")
+    public ResponseEntity<List<Contrato>> listarTodosContratos() {
+        return contratoService.listarTodosContratos();
     }
 
     @GetMapping("/listarContratosPorContratante/{cpf}")

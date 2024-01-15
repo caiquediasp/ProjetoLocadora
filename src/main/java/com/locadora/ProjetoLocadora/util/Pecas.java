@@ -1,5 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import com.locadora.ProjetoLocadora.util.pecas.Andaime;
 import com.locadora.ProjetoLocadora.util.pecas.Escora;
@@ -13,6 +15,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_pecas")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Pecas{
     @Id
     @GeneratedValue(generator = IdGenerator.generatorName)
@@ -91,7 +96,7 @@ public class Pecas{
         andaime.valorTotal();
         escora.valorTotal();
         plataforma.valorTotal();
-        escora.valorTotal();
-        return andaime.getValorAndaime() + escora.getValorEscora() + plataforma.getValorPlataforma() + escora.getValorEscora();
+        roldana.valorTotal();
+        return andaime.getValorAndaime() + escora.getValorEscora() + plataforma.getValorPlataforma() + roldana.getValorRoldana();
     }
 }

@@ -1,6 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_endereco")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Endereco {
     @Id
     @GeneratedValue(generator = IdGenerator.generatorName)

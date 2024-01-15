@@ -1,14 +1,16 @@
 package com.locadora.ProjetoLocadora.util;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tb_contratante")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "cpf")
 public class Contratante {
     @Id
     private String cpf;
@@ -17,7 +19,6 @@ public class Contratante {
     @Column(name = "telefone", nullable = false)
     private String telefone;
     @OneToMany(mappedBy = "contratante")
-    @JsonIgnore
     private List<Contrato> contratos = new ArrayList<>();
 
     public Contratante() {}
@@ -52,7 +53,6 @@ public class Contratante {
         this.telefone = telefone;
     }
 
-    //@JsonManagedReference
     public List<Contrato> getContratos() {
         return contratos;
     }
