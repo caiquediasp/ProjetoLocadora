@@ -39,13 +39,16 @@ public class Contrato {
     private FormaPagamento formaPagamento;
     @Column(name = "valor_total", nullable = false)
     private double valorTotal;
+    @Column(name = "status", nullable = false)
+    private String status;
 
     public Contrato() {}
 
-    public Contrato(LocalDate dataLocacao, LocalDate dataDevolucao, FormaPagamento formaPagamento, Contratante contratante, Pecas pecas) {
+    public Contrato(LocalDate dataLocacao, LocalDate dataDevolucao,FormaPagamento formaPagamento, Endereco endereco, Contratante contratante, Pecas pecas) {
         this.dataLocacao = dataLocacao;
         this.dataDevolucao = dataDevolucao;
         this.formaPagamento = formaPagamento;
+        this.endereco = endereco;
         this.contratante = contratante;
         this.pecas = pecas;
         this.valorTotal = pecas.valorTotal();
@@ -115,5 +118,13 @@ public class Contrato {
 
     public void setValorTotal(double valorTotal){
         this.valorTotal = valorTotal;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

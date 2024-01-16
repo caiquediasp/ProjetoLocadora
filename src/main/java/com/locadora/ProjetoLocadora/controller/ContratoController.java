@@ -3,10 +3,13 @@ package com.locadora.ProjetoLocadora.controller;
 
 import com.locadora.ProjetoLocadora.service.ContratoService;
 import com.locadora.ProjetoLocadora.util.Contrato;
+import com.locadora.ProjetoLocadora.util.FormaPagamento;
+import com.locadora.ProjetoLocadora.util.Pecas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -46,8 +49,8 @@ public class ContratoController {
     }
 
     @PutMapping("/renovarContrato")
-    public ResponseEntity<Contrato> renovarContrato (String id, @RequestBody Contrato contrato) {
-        return contratoService.renovarContrato(id, contrato);
+    public ResponseEntity<Contrato> renovarContrato (String id, @RequestBody Pecas pecas, LocalDate dataRenovacao, LocalDate dataDevolucao, FormaPagamento formaPagamento) {
+        return contratoService.renovarContrato(id, pecas, dataRenovacao, dataDevolucao, formaPagamento);
     }
 
     @DeleteMapping("/excluirContrato/{id}")
