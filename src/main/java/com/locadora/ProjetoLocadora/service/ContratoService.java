@@ -6,6 +6,7 @@ import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
 import com.locadora.ProjetoLocadora.repository.PecasRepository;
 import com.locadora.ProjetoLocadora.util.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,10 +65,18 @@ public class ContratoService {
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<List<Contrato>> listarContratosPorContratante(String cpf) {
+    public ResponseEntity<List<Contrato>> listarContratosDoContratante(String cpf) {
         contratoRepository.atualizarStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosDoContratante(cpf);
+
+        return ResponseEntity.ok(listaContratos);
+    }
+
+    public ResponseEntity<List<Contrato>> listarContratosDoEndereco(String id) {
+        contratoRepository.atualizarStatusContrato();
+
+        List<Contrato> listaContratos = contratoRepository.listarContratosDoEndereco(id);
 
         return ResponseEntity.ok(listaContratos);
     }
@@ -88,7 +97,7 @@ public class ContratoService {
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<Contrato> buscarPorId (String id) {
+    public ResponseEntity<Contrato> buscarContratoPorId (String id) {
         contratoRepository.atualizarStatusContrato();
 
         Contrato contrato = contratoRepository.findById(id)

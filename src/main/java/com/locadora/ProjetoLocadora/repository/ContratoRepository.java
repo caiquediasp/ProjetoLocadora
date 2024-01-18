@@ -20,6 +20,14 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
             , nativeQuery = true)
     void atualizarStatusContrato();
 
+    @Query(value = "SELECT * FROM tb_contrato c WHERE c.cpf_contratante = :cpf"
+            , nativeQuery = true)
+    List<Contrato> listarContratosDoContratante(String cpf);
+
+    @Query(value = "SELECT * FROM tb_contrato c WHERE c.id_endereco = :id"
+            , nativeQuery = true)
+    List<Contrato> listarContratosDoEndereco(String id);
+
     @Query(value = "SELECT * FROM tb_contrato WHERE data_devolucao > current_date;"
            , nativeQuery = true)
     List<Contrato> listarContratosAtivos();
@@ -27,9 +35,5 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
     @Query(value = "SELECT * FROM tb_contrato c WHERE c.data_devolucao < current_date;"
            , nativeQuery = true)
     List<Contrato> listarContratosVencidos();
-
-    @Query(value = "SELECT * FROM tb_contrato c WHERE c.cpf_contratante = :cpf"
-            , nativeQuery = true)
-    List<Contrato> listarContratosDoContratante(String cpf);
 
 }

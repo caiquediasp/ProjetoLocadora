@@ -1,6 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import com.locadora.ProjetoLocadora.util.pecas.Andaime;
@@ -84,6 +85,7 @@ public class Pecas{
         this.roldana = roldana;
     }
 
+    @JsonIgnore
     public List<Contrato> getContrato() {
         return contratos;
     }

@@ -1,6 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
@@ -48,7 +49,7 @@ public class Endereco {
         this.id = id;
     }
 
-    //@JsonManagedReference
+    @JsonIgnore
     public List<Contrato> getContrato() {
         return contratos;
     }

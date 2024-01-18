@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/locacao")
+@RequestMapping("/api/locacao/contrato")
 public class ContratoController {
     @Autowired
     private ContratoService contratoService;
@@ -27,10 +27,14 @@ public class ContratoController {
     public ResponseEntity<List<Contrato>> listarTodosContratos() {
         return contratoService.listarTodosContratos();
     }
+    @GetMapping("/listarContratosDoContratante/{cpf}")
+    public ResponseEntity<List<Contrato>> listarContratosDoContratante(@PathVariable("cpf") String cpf) {
+        return contratoService.listarContratosDoContratante(cpf);
+    }
 
-    @GetMapping("/listarContratosPorContratante/{cpf}")
-    public ResponseEntity<List<Contrato>> listarContratosPorContratante(@PathVariable("cpf") String cpf) {
-        return contratoService.listarContratosPorContratante(cpf);
+    @GetMapping("/listarContratosDoEndereco/{id}")
+    public ResponseEntity<List<Contrato>> listarContratosDoEndereco(@PathVariable("id") String id) {
+        return contratoService.listarContratosDoEndereco(id);
     }
 
     @GetMapping("/listarContratosAtivos")
@@ -44,8 +48,8 @@ public class ContratoController {
     }
 
     @GetMapping("/buscarPorId/{id}")
-    public ResponseEntity<Contrato> buscarPorId (@PathVariable("id") String id) {
-        return contratoService.buscarPorId(id);
+    public ResponseEntity<Contrato> buscarContratoPorId (@PathVariable("id") String id) {
+        return contratoService.buscarContratoPorId(id);
     }
 
     @PutMapping("/renovarContrato")

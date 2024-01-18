@@ -1,6 +1,7 @@
 package com.locadora.ProjetoLocadora.util;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class Contratante {
         this.telefone = telefone;
     }
 
+    @JsonIgnore
     public List<Contrato> getContratos() {
         return contratos;
     }

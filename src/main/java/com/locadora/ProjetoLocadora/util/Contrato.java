@@ -86,7 +86,6 @@ public class Contrato {
         this.formaPagamento = formaPagamento;
     }
 
-    //@JsonBackReference
     public Contratante getContratante() {
         return contratante;
     }
@@ -103,7 +102,6 @@ public class Contrato {
         this.pecas = pecas;
     }
 
-    //@JsonBackReference
     public Endereco getEndereco() {
         return endereco;
     }
