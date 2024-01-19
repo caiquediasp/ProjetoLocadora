@@ -2,6 +2,7 @@ package com.locadora.ProjetoLocadora.util;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
 import jakarta.persistence.*;
@@ -20,6 +21,7 @@ public class Endereco {
     @GeneratedValue(generator = IdGenerator.generatorName)
     @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     @OneToMany(mappedBy = "endereco")
     private List<Contrato> contratos = new ArrayList<>();

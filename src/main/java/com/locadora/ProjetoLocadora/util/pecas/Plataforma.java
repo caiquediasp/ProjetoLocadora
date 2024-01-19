@@ -1,6 +1,7 @@
 package com.locadora.ProjetoLocadora.util.pecas;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -11,6 +12,7 @@ public class Plataforma implements ValorTotal{
     @Column(name = "tam_plataforma")
     private int tamanhoPlataforma;
     @Column(name = "valor_plataforma", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private double valorPlataforma;
 
     public Plataforma() {}
