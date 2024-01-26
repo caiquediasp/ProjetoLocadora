@@ -4,6 +4,7 @@ import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontrado;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.util.Contratante;
+import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,6 @@ import java.util.List;
 
 @Service
 public class ContratanteService {
-    @Autowired
-    ContratoRepository contratoRepository;
     @Autowired
     ContratanteRepository contratanteRepository;
 

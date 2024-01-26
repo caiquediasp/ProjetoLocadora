@@ -14,6 +14,7 @@ import java.util.List;
         property = "cpf")
 public class Contratante {
     @Id
+    @Column(unique = true)
     private String cpf;
     @Column(name = "nome", nullable = false)
     private String nome;

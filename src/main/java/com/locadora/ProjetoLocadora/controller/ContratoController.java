@@ -19,7 +19,7 @@ public class ContratoController {
     private ContratoService contratoService;
 
     @PostMapping("/adicionarContrato")
-    public ResponseEntity<Contrato> adicionarContrato(@RequestBody Contrato contrato) {
+    public ResponseEntity<Contrato> adicionarContrato(@RequestBody Contrato contrato) throws Exception{
         return contratoService.adicionarContrato(contrato);
     }
 
@@ -28,7 +28,7 @@ public class ContratoController {
         return contratoService.listarTodosContratos();
     }
     @GetMapping("/listarContratosDoContratante/{cpf}")
-    public ResponseEntity<List<Contrato>> listarContratosDoContratante(@PathVariable("cpf") String cpf) {
+    public ResponseEntity<List<Contrato>> listarContratosDoContratante(@PathVariable("cpf") String cpf) throws Exception{
         return contratoService.listarContratosDoContratante(cpf);
     }
 

@@ -30,7 +30,7 @@ public class ContratanteController {
     }
 
     @PutMapping("/atualizarTelefone/{cpf}")
-    public ResponseEntity<Contratante> atualizarTelefone(@PathVariable("cpf") String cpf, String telefone) {
+    public ResponseEntity<Contratante> atualizarTelefone(@PathVariable("cpf") String cpf, String telefone){
         return contratanteService.atualizarTelefone(cpf, telefone);
     }
 }

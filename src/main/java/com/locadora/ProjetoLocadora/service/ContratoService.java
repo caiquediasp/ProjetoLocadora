@@ -1,16 +1,19 @@
 package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontrado;
+import com.locadora.ProjetoLocadora.exceptions.CpfInvalido;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
 import com.locadora.ProjetoLocadora.repository.PecasRepository;
 import com.locadora.ProjetoLocadora.util.*;
-import org.apache.coyote.Response;
+import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,9 +28,19 @@ public class ContratoService {
     private EnderecoRepository enderecoRepository;
     @Autowired
     private PecasRepository pecasRepository;
+    @Autowired
+    CpfValidation cpfValidation;
 
-    public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
+    public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) throws Exception {
         contratoRepository.atualizarStatusContrato();
+
+        try {
+            cpfValidation.validaCpf(contrato.getContratante().getCpf());
+        }
+        catch(CpfInvalido e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+
 
         Contratante contratante = contratanteRepository.findById(contrato.getContratante().getCpf()).orElse(null);
 
@@ -65,8 +78,10 @@ public class ContratoService {
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<List<Contrato>> listarContratosDoContratante(String cpf) {
+    public ResponseEntity<List<Contrato>> listarContratosDoContratante(String cpf) throws Exception{
         contratoRepository.atualizarStatusContrato();
+
+        cpfValidation.validaCpf(cpf );
 
         List<Contrato> listaContratos = contratoRepository.listarContratosDoContratante(cpf);
 

@@ -25,7 +25,7 @@ public class Pecas{
     @GeneratedValue(generator = IdGenerator.generatorName)
     @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String id;
     @OneToMany(mappedBy = "pecas")
     private List<Contrato> contratos = new ArrayList<>();

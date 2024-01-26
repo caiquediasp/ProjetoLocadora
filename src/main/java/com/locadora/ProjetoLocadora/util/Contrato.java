@@ -1,7 +1,6 @@
 package com.locadora.ProjetoLocadora.util;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
@@ -22,9 +21,9 @@ public class Contrato {
     @GeneratedValue(generator = IdGenerator.generatorName)
     @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id", unique = true, nullable = false)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cpf_contratante", referencedColumnName = "cpf", nullable = false)
     private Contratante contratante;
     @ManyToOne(cascade = CascadeType.ALL)
