@@ -19,7 +19,7 @@ public class ContratoController {
     private ContratoService contratoService;
 
     @PostMapping("/adicionarContrato")
-    public ResponseEntity<Contrato> adicionarContrato(@RequestBody Contrato contrato) throws Exception{
+    public ResponseEntity<Object> adicionarContrato(@RequestBody Contrato contrato) throws Exception{
         return contratoService.adicionarContrato(contrato);
     }
 
@@ -28,22 +28,22 @@ public class ContratoController {
         return contratoService.listarTodosContratos();
     }
     @GetMapping("/listarContratosDoContratante/{cpf}")
-    public ResponseEntity<List<Contrato>> listarContratosDoContratante(@PathVariable("cpf") String cpf) throws Exception{
+    public ResponseEntity<Object> listarContratosDoContratante(@PathVariable("cpf") String cpf) throws Exception{
         return contratoService.listarContratosDoContratante(cpf);
     }
 
     @GetMapping("/listarContratosDoEndereco/{id}")
-    public ResponseEntity<List<Contrato>> listarContratosDoEndereco(@PathVariable("id") String id) {
+    public ResponseEntity<Object> listarContratosDoEndereco(@PathVariable("id") String id) {
         return contratoService.listarContratosDoEndereco(id);
     }
 
     @GetMapping("/listarContratosAtivos")
-    public ResponseEntity<List<Contrato>> listarContratosAtivos() {
+    public ResponseEntity<Object> listarContratosAtivos() {
         return contratoService.listarContratosAtivos();
     }
 
     @GetMapping("/listarContratosVencidos")
-    public ResponseEntity<List<Contrato>> listarContratosVencidos() {
+    public ResponseEntity<Object> listarContratosVencidos() {
         return contratoService.listarContratosVencidos();
     }
 
