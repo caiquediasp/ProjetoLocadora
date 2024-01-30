@@ -1,8 +1,6 @@
 package com.locadora.ProjetoLocadora.validations;
 
 import com.locadora.ProjetoLocadora.exceptions.CpfInvalidoException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,16 +24,17 @@ public class CpfValidation {
         }
 
         int primeiroDigito = (soma * 10) % 11;
-        if(primeiroDigito == 10 || primeiroDigito != cpf.charAt(10)) {
+        if(primeiroDigito != Integer.parseInt(String.valueOf(cpf.charAt(9)))) {
             throw new CpfInvalidoException("CPF Inválido! - O CPF não existe!");
         }
 
+        soma = 0;
         for(int i = 0; i < 10; i++) {
             soma += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
         }
 
         int segundoDigito = (soma * 10) % 11;
-        if(segundoDigito == 10 || segundoDigito != cpf.charAt(11)) {
+        if(segundoDigito != Integer.parseInt(String.valueOf(cpf.charAt(10)))) {
             throw new CpfInvalidoException("CPF Inválido! - O CPF não existe!");
         }
     }

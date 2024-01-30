@@ -36,7 +36,7 @@ public class ContratanteService {
          }
 
         Contratante contratante = contratanteRepository.findById(cpf)
-                .orElseThrow(() -> new ContratanteNaoEncontradoException());
+                .orElseThrow(ContratanteNaoEncontradoException::new);
 
         return ResponseEntity.ok(contratante);
     }
@@ -52,7 +52,7 @@ public class ContratanteService {
         }
 
         contratanteRepository.findById(cpf)
-                .orElseThrow(() -> new ContratanteNaoEncontradoException());
+                .orElseThrow(ContratanteNaoEncontradoException::new);
 
         Integer quantidadeContrato = contratanteRepository.quantidadeContratoDoContratante(cpf);
 
@@ -70,7 +70,7 @@ public class ContratanteService {
         }
 
          Contratante contratante = contratanteRepository.findById(cpf)
-                 .orElseThrow(() -> new ContratanteNaoEncontradoException());
+                 .orElseThrow(ContratanteNaoEncontradoException::new);
 
          contratante.setTelefone(telefone);
 
