@@ -19,7 +19,7 @@ public class ContratoController {
     private ContratoService contratoService;
 
     @PostMapping("/adicionarContrato")
-    public ResponseEntity<Object> adicionarContrato(@RequestBody Contrato contrato) throws Exception{
+    public ResponseEntity<Contrato> adicionarContrato(@RequestBody Contrato contrato) {
         return contratoService.adicionarContrato(contrato);
     }
 
@@ -28,22 +28,22 @@ public class ContratoController {
         return contratoService.listarTodosContratos();
     }
     @GetMapping("/listarContratosDoContratante/{cpf}")
-    public ResponseEntity<Object> listarContratosDoContratante(@PathVariable("cpf") String cpf) throws Exception{
+    public ResponseEntity<List<Contrato>> listarContratosDoContratante(@PathVariable("cpf") String cpf) {
         return contratoService.listarContratosDoContratante(cpf);
     }
 
     @GetMapping("/listarContratosDoEndereco/{id}")
-    public ResponseEntity<Object> listarContratosDoEndereco(@PathVariable("id") String id) {
+    public ResponseEntity<List<Contrato>> listarContratosDoEndereco(@PathVariable("id") String id) {
         return contratoService.listarContratosDoEndereco(id);
     }
 
     @GetMapping("/listarContratosAtivos")
-    public ResponseEntity<Object> listarContratosAtivos() {
+    public ResponseEntity<List<Contrato>> listarContratosAtivos() {
         return contratoService.listarContratosAtivos();
     }
 
     @GetMapping("/listarContratosVencidos")
-    public ResponseEntity<Object> listarContratosVencidos() {
+    public ResponseEntity<List<Contrato>> listarContratosVencidos() {
         return contratoService.listarContratosVencidos();
     }
 
@@ -53,7 +53,10 @@ public class ContratoController {
     }
 
     @PutMapping("/renovarContrato")
-    public ResponseEntity<Contrato> renovarContrato (String id, @RequestBody Pecas pecas, LocalDate dataRenovacao, LocalDate dataDevolucao, FormaPagamento formaPagamento) {
+    public ResponseEntity<Contrato> renovarContrato (String id, @RequestBody Pecas pecas
+            , LocalDate dataRenovacao, LocalDate dataDevolucao
+            , FormaPagamento formaPagamento)
+    {
         return contratoService.renovarContrato(id, pecas, dataRenovacao, dataDevolucao, formaPagamento);
     }
 

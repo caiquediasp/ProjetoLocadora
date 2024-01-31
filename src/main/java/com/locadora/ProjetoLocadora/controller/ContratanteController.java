@@ -20,17 +20,17 @@ public class ContratanteController {
     }
 
     @GetMapping("/buscarContratantePorCpf/{cpf}")
-    public ResponseEntity<Object> buscarContratantePorCpf(@PathVariable("cpf") String cpf) {
+    public ResponseEntity<Contratante> buscarContratantePorCpf(@PathVariable("cpf") String cpf) {
         return contratanteService.buscarContratantePorCpf(cpf);
     }
 
     @GetMapping("/quantidadeContratoDoContratante/{cpf}")
-    public ResponseEntity<Object> quantidadeContratoDoContratante(@PathVariable("cpf") String cpf) {
+    public ResponseEntity<Integer> quantidadeContratoDoContratante(@PathVariable("cpf") String cpf) {
         return contratanteService.quantidadeContratoDoContratante(cpf);
     }
 
     @PutMapping("/atualizarTelefone/{cpf}")
-    public ResponseEntity<Object> atualizarTelefone(@PathVariable("cpf") String cpf, String telefone){
+    public ResponseEntity<Contratante> atualizarTelefone(@PathVariable("cpf") String cpf, String telefone){
         return contratanteService.atualizarTelefone(cpf, telefone);
     }
 }

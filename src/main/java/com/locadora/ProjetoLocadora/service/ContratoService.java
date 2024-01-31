@@ -1,5 +1,6 @@
 package com.locadora.ProjetoLocadora.service;
 
+import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.CpfInvalidoException;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.time.LocalDate;
@@ -30,22 +32,16 @@ public class ContratoService {
     @Autowired
     CpfValidation cpfValidation;
 
-    public ResponseEntity<Object> adicionarContrato(Contrato contrato) {
+    public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
         contratoRepository.atualizarStatusContrato();
 
-        try{
-            cpfValidation.validadorCpf(contrato.getContratante().getCpf());
-        }
-        catch (CpfInvalidoException e) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+        cpfValidation.validadorCpf(contrato.getContratante().getCpf());
 
         Contratante contratante = contratanteRepository.findById(contrato.getContratante().getCpf())
                 .orElse(null);
 
-        if(contratante != null) contrato.setContratante(contratante);
+        if(contratante != null)
+            contrato.setContratante(contratante);
 
         Endereco endereco = enderecoRepository.verificarEnderecoExistente(contrato.getEndereco().getCep()
                 , contrato.getEndereco().getBairro()
@@ -53,11 +49,13 @@ public class ContratoService {
                 , contrato.getEndereco().getNumero()
         );
 
-        if(endereco != null) contrato.setEndereco(endereco);
+        if(endereco != null)
+            contrato.setEndereco(endereco);
 
         contrato.setValorTotal(contrato.getPecas().valorTotal());
 
-        if(contrato.getFormaPagamento() == FormaPagamento.CREDITO) contrato.setValorTotal(contrato.getValorTotal() * 1.05);
+        if(contrato.getFormaPagamento() == FormaPagamento.CREDITO)
+            contrato.setValorTotal(contrato.getValorTotal() * 1.05);
 
         contrato.setStatus("ATIVO");
 
@@ -74,62 +72,62 @@ public class ContratoService {
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<Object> listarContratosDoContratante(String cpf) {
+    public ResponseEntity<List<Contrato>> listarContratosDoContratante(String cpf) {
         contratoRepository.atualizarStatusContrato();
 
-        try{
-            cpfValidation.validadorCpf(cpf);
-        }
-        catch (CpfInvalidoException e) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+        cpfValidation.validadorCpf(cpf);
+
+        contratanteRepository.findById(cpf)
+                .orElseThrow(() -> new ContratanteNaoEncontradoException(cpf));
 
         List<Contrato> listaContratos = contratoRepository.listarContratosDoContratante(cpf);
 
-        if (listaContratos.isEmpty()) return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("O contratante não possui contratos");
+        if (listaContratos.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                , "Nenhum contrato encontrado deste contratante!");
 
 
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<Object> listarContratosDoEndereco(String id) {
+    public ResponseEntity<List<Contrato>> listarContratosDoEndereco(String id) {
         contratoRepository.atualizarStatusContrato();
+
+        enderecoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND
+                        , "Nenhum endereço encontrado com este id!"));
 
         List<Contrato> listaContratos = contratoRepository.listarContratosDoEndereco(id);
 
-        if (listaContratos.isEmpty()) return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("O endereço não possui contratos");
+        if (listaContratos.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                    , "Nenhum contrato encontrado neste endereço!");
 
 
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<Object> listarContratosAtivos() {
+    public ResponseEntity<List<Contrato>> listarContratosAtivos() {
         contratoRepository.atualizarStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosAtivos();
 
-        if(listaContratos.isEmpty()) return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("Não há nenhum contrato ativo!");
+        if(listaContratos.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                , "Nenhum contrato ativo!");
 
 
         return ResponseEntity.ok(listaContratos);
     }
 
-    public ResponseEntity<Object> listarContratosVencidos() {
+    public ResponseEntity<List<Contrato>> listarContratosVencidos() {
         contratoRepository.atualizarStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosVencidos();
 
-        if (listaContratos.isEmpty()) return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Não há nenhum contrato vencido!");
+        if (listaContratos.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                , "Nenhum contrato vencido!");
 
 
         return ResponseEntity.ok(listaContratos);
@@ -139,16 +137,19 @@ public class ContratoService {
         contratoRepository.atualizarStatusContrato();
 
         Contrato contrato = contratoRepository.findById(id)
-                .orElseThrow(() -> new ContratoNaoEncontradoException("Contrato não encontrado com Id: " + id));
+                .orElseThrow(() -> new ContratoNaoEncontradoException(id));
 
         return ResponseEntity.ok(contrato);
     }
 
-    public ResponseEntity<Contrato> renovarContrato (String id, Pecas pecas, LocalDate dataRenovacao, LocalDate dataDevolucao, FormaPagamento formaPagamento) {
+    public ResponseEntity<Contrato> renovarContrato (String id, Pecas pecas
+            , LocalDate dataRenovacao, LocalDate dataDevolucao
+            , FormaPagamento formaPagamento)
+    {
         contratoRepository.atualizarStatusContrato();
 
         Contrato contrato = contratoRepository.findById(id)
-                .orElseThrow(() -> new ContratoNaoEncontradoException("Contrato não encontrado com Id: " + id));
+                .orElseThrow(() -> new ContratoNaoEncontradoException(id));
 
         contrato.setPecas(pecas);
         contrato.setDataLocacao(dataRenovacao);
@@ -168,7 +169,7 @@ public class ContratoService {
 
     public ResponseEntity<Contrato> excluirContrato (String id) {
         contratoRepository.findById(id)
-                .orElseThrow(() -> new ContratoNaoEncontradoException("Contrato não encontrado com Id: " + id));
+                .orElseThrow(() -> new ContratoNaoEncontradoException(id));
 
         contratoRepository.deleteById(id);
 

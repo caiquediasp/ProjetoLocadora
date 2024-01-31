@@ -1,12 +1,10 @@
 package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
-import com.locadora.ProjetoLocadora.exceptions.CpfInvalidoException;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.util.Contratante;
 import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -25,52 +23,31 @@ public class ContratanteService {
         return ResponseEntity.ok(listaContratante);
     }
 
-    public ResponseEntity<Object> buscarContratantePorCpf(String cpf) {
-         try {
-             cpfValidation.validadorCpf(cpf);
-         }
-         catch (CpfInvalidoException e) {
-             return ResponseEntity
-                     .status(HttpStatus.CONFLICT)
-                     .body(e.getMessage());
-         }
+    public ResponseEntity<Contratante> buscarContratantePorCpf(String cpf) {
+        cpfValidation.validadorCpf(cpf);
 
         Contratante contratante = contratanteRepository.findById(cpf)
-                .orElseThrow(ContratanteNaoEncontradoException::new);
+                .orElseThrow(() -> new ContratanteNaoEncontradoException(cpf));
 
         return ResponseEntity.ok(contratante);
     }
 
-    public ResponseEntity<Object> quantidadeContratoDoContratante(String cpf) {
-        try{
-            cpfValidation.validadorCpf(cpf);
-        }
-        catch (CpfInvalidoException e) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+    public ResponseEntity<Integer> quantidadeContratoDoContratante(String cpf) {
+        cpfValidation.validadorCpf(cpf);
 
         contratanteRepository.findById(cpf)
-                .orElseThrow(ContratanteNaoEncontradoException::new);
+                .orElseThrow(() -> new ContratanteNaoEncontradoException(cpf));
 
         Integer quantidadeContrato = contratanteRepository.quantidadeContratoDoContratante(cpf);
 
         return ResponseEntity.ok(quantidadeContrato);
     }
 
-    public ResponseEntity<Object> atualizarTelefone(String cpf, String telefone) {
-        try{
-            cpfValidation.validadorCpf(cpf);
-        }
-        catch (CpfInvalidoException e) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
+    public ResponseEntity<Contratante> atualizarTelefone(String cpf, String telefone) {
+        cpfValidation.validadorCpf(cpf);
 
          Contratante contratante = contratanteRepository.findById(cpf)
-                 .orElseThrow(ContratanteNaoEncontradoException::new);
+                 .orElseThrow(() -> new ContratanteNaoEncontradoException(cpf));
 
          contratante.setTelefone(telefone);
 
