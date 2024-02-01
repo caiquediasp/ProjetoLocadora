@@ -2,7 +2,6 @@ package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontradoException;
-import com.locadora.ProjetoLocadora.exceptions.CpfInvalidoException;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
 import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
