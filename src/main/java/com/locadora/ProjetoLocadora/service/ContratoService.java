@@ -42,6 +42,8 @@ public class ContratoService {
         if(contratante != null)
             contrato.setContratante(contratante);
 
+
+
         Endereco endereco = enderecoRepository.verificarEnderecoExistente(contrato.getEndereco().getCep()
                 , contrato.getEndereco().getBairro()
                 , contrato.getEndereco().getRua()

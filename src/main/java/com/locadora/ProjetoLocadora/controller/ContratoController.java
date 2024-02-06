@@ -32,6 +32,7 @@ public class ContratoController {
     public ResponseEntity<List<Contrato>> listarTodosContratos() {
         return contratoService.listarTodosContratos();
     }
+
     @GetMapping("/listarPorContratante/{cpf}")
     @Operation(summary = "Lista contratos por Contratante", description = "Retorna uma lista de todos os contratos com o mesmo contratante")
     public ResponseEntity<List<Contrato>> listarContratosDoContratante(@PathVariable("cpf") String cpf) {
