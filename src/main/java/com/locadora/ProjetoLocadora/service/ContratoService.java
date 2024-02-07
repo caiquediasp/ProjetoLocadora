@@ -2,12 +2,11 @@ package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontradoException;
-import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
-import com.locadora.ProjetoLocadora.repository.ContratoRepository;
-import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
-import com.locadora.ProjetoLocadora.repository.PecasRepository;
+import com.locadora.ProjetoLocadora.exceptions.QuantidadeInvalidaException;
+import com.locadora.ProjetoLocadora.repository.*;
 import com.locadora.ProjetoLocadora.util.*;
 import com.locadora.ProjetoLocadora.validations.CpfValidation;
+import com.locadora.ProjetoLocadora.validations.EstoqueValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,20 +28,22 @@ public class ContratoService {
     @Autowired
     private PecasRepository pecasRepository;
     @Autowired
-    CpfValidation cpfValidation;
+    private EstoqueValidation estoqueValidation;
+    @Autowired
+    private CpfValidation cpfValidation;
 
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
         contratoRepository.atualizarStatusContrato();
 
         cpfValidation.validadorCpf(contrato.getContratante().getCpf());
 
+        estoqueValidation.verificaDisponibilidadePecas(contrato.getPecas());
+
         Contratante contratante = contratanteRepository.findById(contrato.getContratante().getCpf())
                 .orElse(null);
 
         if(contratante != null)
             contrato.setContratante(contratante);
-
-
 
         Endereco endereco = enderecoRepository.verificarEnderecoExistente(contrato.getEndereco().getCep()
                 , contrato.getEndereco().getBairro()
@@ -148,6 +149,8 @@ public class ContratoService {
             , FormaPagamento formaPagamento)
     {
         contratoRepository.atualizarStatusContrato();
+
+        estoqueValidation.verificaDisponibilidadePecas(pecas);
 
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontradoException(id));
