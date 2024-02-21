@@ -28,7 +28,7 @@ public class EstoqueValidation {
                 throw new QuantidadeInvalidaException("plataformas");
 
         if(pecas.getRoldana().getQtdRoldana() > 0)
-            if(!estoqueRepository.verificaDisponibilidadeRoldana(
+            if(estoqueRepository.verificaDisponibilidadeRoldana(
                     pecas.getRoldana().getQtdRoldana()))
                 throw new QuantidadeInvalidaException("roldanas");
 

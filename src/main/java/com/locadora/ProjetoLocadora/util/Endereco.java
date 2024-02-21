@@ -23,7 +23,7 @@ public class Endereco {
     @Column(name = "id")
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String id;
-    @OneToMany(mappedBy = "endereco")
+    @OneToMany(mappedBy = "endereco", cascade = CascadeType.ALL)
     private List<Contrato> contratos = new ArrayList<>();
     @Column(name = "cep", nullable = false)
     private String cep;

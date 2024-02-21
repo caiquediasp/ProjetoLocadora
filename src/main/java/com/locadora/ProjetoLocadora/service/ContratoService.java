@@ -5,6 +5,7 @@ import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.QuantidadeInvalidaException;
 import com.locadora.ProjetoLocadora.repository.*;
 import com.locadora.ProjetoLocadora.util.*;
+import com.locadora.ProjetoLocadora.validations.ContratoStatusValidation;
 import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import com.locadora.ProjetoLocadora.validations.EstoqueValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,14 @@ public class ContratoService {
     @Autowired
     private PecasRepository pecasRepository;
     @Autowired
+    private ContratoStatusValidation contratoStatusValidation;
+    @Autowired
     private EstoqueValidation estoqueValidation;
     @Autowired
     private CpfValidation cpfValidation;
 
     public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         cpfValidation.validadorCpf(contrato.getContratante().getCpf());
 
@@ -45,7 +48,8 @@ public class ContratoService {
         if(contratante != null)
             contrato.setContratante(contratante);
 
-        Endereco endereco = enderecoRepository.verificarEnderecoExistente(contrato.getEndereco().getCep()
+        Endereco endereco = enderecoRepository.verificarEnderecoExistente(
+                contrato.getEndereco().getCep()
                 , contrato.getEndereco().getBairro()
                 , contrato.getEndereco().getRua()
                 , contrato.getEndereco().getNumero()
@@ -67,7 +71,7 @@ public class ContratoService {
     }
 
     public ResponseEntity<List<Contrato>> listarTodosContratos() {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.findAll();
 
@@ -75,7 +79,7 @@ public class ContratoService {
     }
 
     public ResponseEntity<List<Contrato>> listarContratosDoContratante(String cpf) {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         cpfValidation.validadorCpf(cpf);
 
@@ -93,7 +97,7 @@ public class ContratoService {
     }
 
     public ResponseEntity<List<Contrato>> listarContratosDoEndereco(String id) {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         enderecoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND
@@ -110,7 +114,7 @@ public class ContratoService {
     }
 
     public ResponseEntity<List<Contrato>> listarContratosAtivos() {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosAtivos();
 
@@ -123,7 +127,7 @@ public class ContratoService {
     }
 
     public ResponseEntity<List<Contrato>> listarContratosVencidos() {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosVencidos();
 
@@ -136,7 +140,7 @@ public class ContratoService {
     }
 
     public ResponseEntity<Contrato> buscarContratoPorId (String id) {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontradoException(id));
@@ -148,7 +152,7 @@ public class ContratoService {
             , LocalDate dataRenovacao, LocalDate dataDevolucao
             , FormaPagamento formaPagamento)
     {
-        contratoRepository.atualizarStatusContrato();
+        contratoStatusValidation.validaStatusContrato();
 
         estoqueValidation.verificaDisponibilidadePecas(pecas);
 
@@ -172,6 +176,8 @@ public class ContratoService {
     }
 
     public ResponseEntity<Contrato> excluirContrato (String id) {
+        contratoStatusValidation.validaStatusContrato();
+
         contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontradoException(id));
 

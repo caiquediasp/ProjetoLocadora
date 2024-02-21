@@ -13,9 +13,13 @@ import java.util.List;
 public interface ContratoRepository extends JpaRepository<Contrato, String> {
     @Transactional
     @Modifying
-    @Query(value = "UPDATE tb_contrato SET status = 'VENCIDO' WHERE data_devolucao < current_date;"
+    @Query(value = "UPDATE tb_contrato SET status = 'VENCIDO' WHERE data_devolucao < current_date"
             , nativeQuery = true)
     void atualizarStatusContrato();
+
+    @Query(value = "SELECT * FROM tb_contrato WHERE data_devolucao < current_date AND status != 'VENCIDO'"
+            , nativeQuery = true)
+    List<Contrato> validarStatusContratos();
 
     @Query(value = "SELECT * FROM tb_contrato c WHERE c.cpf_contratante = :cpf"
             , nativeQuery = true)
@@ -25,11 +29,11 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
             , nativeQuery = true)
     List<Contrato> listarContratosDoEndereco(String id);
 
-    @Query(value = "SELECT * FROM tb_contrato WHERE data_devolucao > current_date;"
+    @Query(value = "SELECT * FROM tb_contrato WHERE AND status != 'ATIVO'"
            , nativeQuery = true)
     List<Contrato> listarContratosAtivos();
 
-    @Query(value = "SELECT * FROM tb_contrato c WHERE c.data_devolucao < current_date;"
+    @Query(value = "SELECT * FROM tb_contrato c WHERE status = 'VENCIDO'"
            , nativeQuery = true)
     List<Contrato> listarContratosVencidos();
 
