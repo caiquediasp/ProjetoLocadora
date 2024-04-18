@@ -92,7 +92,6 @@ public class ContratoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
                 , "Nenhum contrato encontrado deste contratante!");
 
-
         return ResponseEntity.ok(listaContratos);
     }
 
@@ -108,7 +107,6 @@ public class ContratoService {
         if (listaContratos.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
                     , "Nenhum contrato encontrado neste endereço!");
-
 
         return ResponseEntity.ok(listaContratos);
     }

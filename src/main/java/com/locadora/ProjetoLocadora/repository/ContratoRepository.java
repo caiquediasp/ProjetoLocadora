@@ -29,7 +29,7 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
             , nativeQuery = true)
     List<Contrato> listarContratosDoEndereco(String id);
 
-    @Query(value = "SELECT * FROM tb_contrato WHERE AND status != 'ATIVO'"
+    @Query(value = "SELECT * FROM tb_contrato WHERE status = 'ATIVO'"
            , nativeQuery = true)
     List<Contrato> listarContratosAtivos();
 
