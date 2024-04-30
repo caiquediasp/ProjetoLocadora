@@ -14,12 +14,12 @@ public class EstoqueValidation {
     public void verificaDisponibilidadePecas(Pecas pecas) {
         if(pecas.getAndaime().getQtdAndaime() > 0)
             if(!estoqueRepository.verificaDisponibilidadeAndaime(
-                    pecas.getAndaime().getTamanhoAndaime(), pecas.getAndaime().getQtdAndaime()).equals(1))
+                    pecas.getAndaime().getTamanhoAndaime(), pecas.getAndaime().getQtdAndaime()))
                 throw new QuantidadeInvalidaException("andaimes");
 
         if(pecas.getEscora().getQtdEscora() > 0 )
             if (!estoqueRepository.verificaDisponibilidadeEscora(
-                    pecas.getEscora().getTamanhoEscora(), pecas.getEscora().getQtdEscora()))
+                    pecas.getEscora().getTamanhoEscora(), pecas.getEscora().getTamanhoEscora()))
                 throw new QuantidadeInvalidaException("escoras");
 
         if (pecas.getPlataforma().getQtdPlataforma() > 0)
@@ -28,7 +28,7 @@ public class EstoqueValidation {
                 throw new QuantidadeInvalidaException("plataformas");
 
         if(pecas.getRoldana().getQtdRoldana() > 0)
-            if(!estoqueRepository.verificaDisponibilidadeRoldana(
+            if(estoqueRepository.verificaDisponibilidadeRoldana(
                     pecas.getRoldana().getQtdRoldana()))
                 throw new QuantidadeInvalidaException("roldanas");
 
