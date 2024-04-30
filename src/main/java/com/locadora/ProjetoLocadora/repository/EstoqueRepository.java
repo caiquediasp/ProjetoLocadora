@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EstoqueRepository extends JpaRepository<Pecas, Integer> {
-    @Query(value = "SELECT quantidade < :quantidade FROM tb_estoque_andaime WHERE tamanho = :tamanho"
+    @Query(value = "SELECT COUNT(*) > 0 FROM tb_estoque_andaime WHERE tamanho = :tamanho AND quantidade >= :quantidade"
             , nativeQuery = true)
-    public Boolean verificaDisponibilidadeAndaime(int tamanho, int quantidade);
+    public Integer verificaDisponibilidadeAndaime(int tamanho, int quantidade);
 
     @Query(value = "SELECT quantidade < :quantidade FROM tb_estoque_escora WHERE tamanho = :tamanho"
             , nativeQuery = true)
