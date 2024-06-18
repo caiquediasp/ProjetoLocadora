@@ -23,7 +23,7 @@ public class ContratanteController {
         return contratanteService.listarTodosContratantes();
     }
 
-    @GetMapping("buscarPorCpf//{cpf}")
+    @GetMapping("buscarPorCpf/{cpf}")
     @Operation(summary = "Buscar contratante por CPF", description = "Retorna um contratante a partir de um CPF")
     public ResponseEntity<Contratante> buscarContratantePorCpf(@PathVariable("cpf") String cpf) {
         return contratanteService.buscarContratantePorCpf(cpf);
@@ -35,7 +35,7 @@ public class ContratanteController {
         return contratanteService.quantidadeContratoDoContratante(cpf);
     }
 
-    @PutMapping("/atualizarTelefone/{cpf}")
+    @PatchMapping("/atualizarTelefone/{cpf}")
     @Operation(summary = "Atualizar telefone", description = "Atualiza o telefone de um contratante a partir de um CPF")
     public ResponseEntity<Contratante> atualizarTelefone(@PathVariable("cpf") String cpf, String telefone){
         return contratanteService.atualizarTelefone(cpf, telefone);

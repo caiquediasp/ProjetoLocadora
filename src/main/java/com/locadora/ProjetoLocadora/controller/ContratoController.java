@@ -63,7 +63,7 @@ public class ContratoController {
         return contratoService.buscarContratoPorId(id);
     }
 
-    @PutMapping("/renovar/{id}")
+    @PatchMapping("/renovar/{id}")
     @Operation(summary = "Renovar contrato", description = "Renova um contrato a partir de um Id")
     public ResponseEntity<Contrato> renovarContrato (@PathVariable("id") String id, @RequestBody Pecas pecas
             , LocalDate dataRenovacao, LocalDate dataDevolucao
