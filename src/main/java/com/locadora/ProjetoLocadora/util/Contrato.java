@@ -21,7 +21,6 @@ public class Contrato {
     @GeneratedValue(generator = IdGenerator.generatorName)
     @GenericGenerator(name = IdGenerator.generatorName, strategy = "uuid")
     @Column(name = "id", unique = true, nullable = false)
-    //@JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String id;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cpf_contratante", referencedColumnName = "cpf", nullable = false)

@@ -2,7 +2,6 @@ package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontradoException;
-import com.locadora.ProjetoLocadora.exceptions.QuantidadeInvalidaException;
 import com.locadora.ProjetoLocadora.repository.*;
 import com.locadora.ProjetoLocadora.util.*;
 import com.locadora.ProjetoLocadora.validations.ContratoStatusValidation;
@@ -47,6 +46,8 @@ public class ContratoService {
 
         if(contratante != null)
             contrato.setContratante(contratante);
+
+        contratanteRepository.save(contrato.getContratante());
 
         Endereco endereco = enderecoRepository.verificarEnderecoExistente(
                 contrato.getEndereco().getCep()

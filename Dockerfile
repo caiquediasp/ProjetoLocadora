@@ -1,5 +1,6 @@
-FROM openjdk:17-jdk-alpine
-RUN mkdir /app
+FROM maven:3.8.5-openjdk-17
 WORKDIR /app
-COPY target/ProjetoLocadora-0.0.1-SNAPSHOT.jar /app
-CMD ["java", "-jar", "ProjetoLocadora-0.0.1-SNAPSHOT.jar"]
+COPY . .
+RUN mvn clean install
+
+CMD mvn -e spring-boot:run
