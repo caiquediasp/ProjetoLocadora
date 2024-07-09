@@ -41,11 +41,7 @@ public class ContratoService {
 
         estoqueValidation.verificaDisponibilidadePecas(contrato.getPecas());
 
-        Contratante contratante = contratanteRepository.findById(contrato.getContratante().getCpf())
-                .orElse(null);
-
-        if(contratante != null)
-            contrato.setContratante(contratante);
+        contratanteRepository.findById(contrato.getContratante().getCpf()).ifPresent(contrato::setContratante);
 
         contratanteRepository.save(contrato.getContratante());
 
