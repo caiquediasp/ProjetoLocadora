@@ -37,7 +37,15 @@ class ContratoServiceTest {
     @Mock
     private ContratoRepository contratoRepository;
     @Mock
+    private EnderecoRepository enderecoRepository;
+    @Mock
     private ContratoService contratoService;
+    @Mock
+    private ContratanteService contratanteService;
+    @Mock
+    private EstoqueValidation estoqueValidation;
+    @Mock
+    private CpfValidation cpfValidation;
 
     Contratante contratante = new Contratante("05433755363", "teste", "(xx)xxxxx-xxxx");
     Endereco endereco = new Endereco("12345-678", "teste", "teste", 1234);
@@ -50,7 +58,31 @@ class ContratoServiceTest {
 
     @Test
     void adicionarContrato() throws  Exception{
+        String cpf = "05433755363";
+        cpfValidation.validadorCpf(cpf);
+        estoqueValidation.verificaDisponibilidadePecas(pecas);
 
+        when(contratanteService.buscarContratantePorCpf(cpf)).thenReturn(contratante);
+        Contratante teste = contratanteService.buscarContratantePorCpf("05433755363");
+        assertThat(teste).isNotNull();
+
+        contratanteService.salvarContratante(teste);
+
+        when(enderecoRepository.verificarEnderecoExistente(endereco.getCep(),
+                endereco.getBairro(), endereco.getRua(), endereco.getNumero())).thenReturn(endereco);
+        enderecoRepository.verificarEnderecoExistente(endereco.getCep(),
+                endereco.getBairro(), endereco.getRua(), endereco.getNumero());
+        verify(enderecoRepository, times(1)).verificarEnderecoExistente
+                (endereco.getCep(), endereco.getBairro(), endereco.getRua(), endereco.getNumero());
+
+        contrato.setValorTotal(contrato.getPecas().valorTotal());
+        assertThat(contrato.getValorTotal()).isNotNull();
+
+        contrato.setStatus("ATIVO");
+
+        when(contratoService.adicionarContrato(contrato)).thenReturn(contrato);
+        Contrato testeContrato = contratoService.adicionarContrato(contrato);
+        assertThat(testeContrato).isNotNull();
     }
 
     @Test

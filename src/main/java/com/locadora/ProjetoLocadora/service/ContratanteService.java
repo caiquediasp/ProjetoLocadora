@@ -13,9 +13,13 @@ import java.util.List;
 @Service
 public class ContratanteService {
     @Autowired
-    ContratanteRepository contratanteRepository;
+    private ContratanteRepository contratanteRepository;
     @Autowired
-    CpfValidation cpfValidation;
+    private CpfValidation cpfValidation;
+
+    public void salvarContratante(Contratante contratante) {
+        contratanteRepository.save(contratante);
+    }
 
     public List<Contratante> listarTodosContratantes() {
         return contratanteRepository.findAll();
