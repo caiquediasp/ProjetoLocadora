@@ -34,7 +34,7 @@ public class ContratoService {
     @Autowired
     private CpfValidation cpfValidation;
 
-    public ResponseEntity<Contrato> adicionarContrato(Contrato contrato) {
+    public Contrato adicionarContrato(Contrato contrato) {
         contratoStatusValidation.validaStatusContrato();
 
         cpfValidation.validadorCpf(contrato.getContratante().getCpf());
@@ -64,18 +64,18 @@ public class ContratoService {
 
         contratoRepository.save(contrato);
 
-        return ResponseEntity.ok(contrato);
+        return contrato;
     }
 
-    public ResponseEntity<List<Contrato>> listarTodosContratos() {
+    public List<Contrato> listarTodosContratos() {
         contratoStatusValidation.validaStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.findAll();
 
-        return ResponseEntity.ok(listaContratos);
+        return listaContratos;
     }
 
-    public ResponseEntity<List<Contrato>> listarContratosDoContratante(String cpf) {
+    public List<Contrato> listarContratosDoContratante(String cpf) {
         contratoStatusValidation.validaStatusContrato();
 
         cpfValidation.validadorCpf(cpf);
@@ -89,10 +89,10 @@ public class ContratoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
                 , "Nenhum contrato encontrado deste contratante!");
 
-        return ResponseEntity.ok(listaContratos);
+        return listaContratos;
     }
 
-    public ResponseEntity<List<Contrato>> listarContratosDoEndereco(String id) {
+    public List<Contrato> listarContratosDoEndereco(String id) {
         contratoStatusValidation.validaStatusContrato();
 
         enderecoRepository.findById(id)
@@ -105,10 +105,10 @@ public class ContratoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
                     , "Nenhum contrato encontrado neste endereço!");
 
-        return ResponseEntity.ok(listaContratos);
+        return listaContratos;
     }
 
-    public ResponseEntity<List<Contrato>> listarContratosAtivos() {
+    public List<Contrato> listarContratosAtivos() {
         contratoStatusValidation.validaStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosAtivos();
@@ -117,11 +117,10 @@ public class ContratoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
                 , "Nenhum contrato ativo!");
 
-
-        return ResponseEntity.ok(listaContratos);
+        return listaContratos;
     }
 
-    public ResponseEntity<List<Contrato>> listarContratosVencidos() {
+    public List<Contrato> listarContratosVencidos() {
         contratoStatusValidation.validaStatusContrato();
 
         List<Contrato> listaContratos = contratoRepository.listarContratosVencidos();
@@ -130,20 +129,19 @@ public class ContratoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND
                 , "Nenhum contrato vencido!");
 
-
-        return ResponseEntity.ok(listaContratos);
+        return listaContratos;
     }
 
-    public ResponseEntity<Contrato> buscarContratoPorId (String id) {
+    public Contrato buscarContratoPorId (String id) {
         contratoStatusValidation.validaStatusContrato();
 
         Contrato contrato = contratoRepository.findById(id)
                 .orElseThrow(() -> new ContratoNaoEncontradoException(id));
 
-        return ResponseEntity.ok(contrato);
+        return contrato;
     }
 
-    public ResponseEntity<Contrato> renovarContrato (String id, Pecas pecas
+    public Contrato renovarContrato (String id, Pecas pecas
             , LocalDate dataRenovacao, LocalDate dataDevolucao
             , FormaPagamento formaPagamento)
     {
@@ -167,10 +165,10 @@ public class ContratoService {
 
         contratoRepository.save(contrato);
 
-        return ResponseEntity.ok(contrato);
+        return contrato;
     }
 
-    public ResponseEntity<Contrato> excluirContrato (String id) {
+    public ResponseEntity excluirContrato (String id) {
         contratoStatusValidation.validaStatusContrato();
 
         contratoRepository.findById(id)

@@ -19,24 +19,24 @@ public class EstoqueController {
     @GetMapping("/andaime")
     @Operation(summary = "Estoque de andaimes", description = "Verifica no banco de dados o estoque de andaimes, de acordo com o tamanho informado")
     public ResponseEntity<Integer> verificaEstoqueAndaime(int tamanho) {
-        return estoqueService.verificaEstoqueAndaime(tamanho);
+        return ResponseEntity.ok(estoqueService.verificaEstoqueAndaime(tamanho));
     }
 
     @GetMapping("/escora")
     @Operation(summary = "Estoque de escoras", description = "Verifica no banco de dados o estoque de escoras, de acordo com o tamanho informado")
     public ResponseEntity<Integer> verificaEstoqueEscora(int tamanho) {
-        return estoqueService.verificaEstoqueEscora(tamanho);
+        return ResponseEntity.ok(estoqueService.verificaEstoqueEscora(tamanho));
     }
 
     @GetMapping("/plataforma")
     @Operation(summary = "Estoque de plataformas", description = "Verifica no banco de dados o estoque de plataformas, de acordo com o tamanho informado")
     public ResponseEntity<Integer> verificaEstoquePlataforma(int tamanho) {
-        return estoqueService.verificaEstoquePlataforma(tamanho);
+        return ResponseEntity.ok(estoqueService.verificaEstoquePlataforma(tamanho));
     }
 
     @GetMapping("/roldana")
     @Operation(summary = "Estoque de roldanas", description = "Verifica no banco de dados o estoque de roldanas, que possui um tamanho padrão")
     public ResponseEntity<Integer> verificaEstoqueRoldana() {
-        return estoqueService.verificaEstoqueRoldana();
+        return ResponseEntity.ok(estoqueService.verificaEstoqueRoldana());
     }
 }

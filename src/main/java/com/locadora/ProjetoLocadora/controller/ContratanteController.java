@@ -20,24 +20,24 @@ public class ContratanteController {
     @GetMapping("/listarTodos")
     @Operation(summary = "Listar contratantes", description = "Retorna uma lista com todos os contratantes")
     public ResponseEntity<List<Contratante>> listarTodosContratantes() {
-        return contratanteService.listarTodosContratantes();
+        return ResponseEntity.ok(contratanteService.listarTodosContratantes());
     }
 
     @GetMapping("buscarPorCpf/{cpf}")
     @Operation(summary = "Buscar contratante por CPF", description = "Retorna um contratante a partir de um CPF")
     public ResponseEntity<Contratante> buscarContratantePorCpf(@PathVariable("cpf") String cpf) {
-        return contratanteService.buscarContratantePorCpf(cpf);
+        return ResponseEntity.ok(contratanteService.buscarContratantePorCpf(cpf));
     }
 
     @GetMapping("/qtdPorContratante/{cpf}")
     @Operation(summary = "Quantidade de contratos do contratante", description = "Retorna o número de contratos de um contratante a partir de um CPF")
     public ResponseEntity<Integer> quantidadeContratoDoContratante(@PathVariable("cpf") String cpf) {
-        return contratanteService.quantidadeContratoDoContratante(cpf);
+        return ResponseEntity.ok(contratanteService.quantidadeContratoDoContratante(cpf));
     }
 
     @PatchMapping("/atualizarTelefone/{cpf}")
     @Operation(summary = "Atualizar telefone", description = "Atualiza o telefone de um contratante a partir de um CPF")
     public ResponseEntity<Contratante> atualizarTelefone(@PathVariable("cpf") String cpf, String telefone){
-        return contratanteService.atualizarTelefone(cpf, telefone);
+        return ResponseEntity.ok(contratanteService.atualizarTelefone(cpf, telefone));
     }
 }

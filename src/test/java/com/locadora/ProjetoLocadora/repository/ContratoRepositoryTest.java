@@ -1,12 +1,10 @@
 package com.locadora.ProjetoLocadora.repository;
 
-import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.util.*;
 import com.locadora.ProjetoLocadora.util.pecas.Andaime;
 import com.locadora.ProjetoLocadora.util.pecas.Escora;
 import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
 import com.locadora.ProjetoLocadora.util.pecas.Roldana;
-import org.apache.commons.lang3.BooleanUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +13,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ContratanteRepositoryTest {
-
+public class ContratoRepositoryTest {
     @Autowired
-    ContratanteRepository contratanteRepository;
-    @Autowired
-    ContratoRepository contratoRepository;
+    public ContratoRepository contratoRepository;
 
     @BeforeEach
-    void setup (){
+    void setup() {
         Contratante contratante = new Contratante("05433755363", "teste", "(xx)xxxxx-xxxx");
         Endereco endereco = new Endereco("12345-678", "teste", "teste", 1234);
         Andaime andaime = new Andaime(5, 1);
@@ -44,35 +36,37 @@ class ContratanteRepositoryTest {
         Contrato contrato = new Contrato(LocalDate.now(), LocalDate.now().plusDays(5L), FormaPagamento.PIX, endereco, contratante, pecas);
         contrato.setStatus("ATIVO");
         contratoRepository.save(contrato);
+        contrato.setDataLocacao(LocalDate.now().minusDays(5));
+        contrato.setDataDevolucao(LocalDate.now().minusDays(2));
+        contrato.setStatus("VENCIDO");
+        contratoRepository.save(contrato);
     }
 
     @Test
-    void quantidadeContratoDoContratante() {
+    public void listarContratosDoContratante() {
         String cpf = "05433755363";
-        int quantidadeContrato = contratanteRepository.quantidadeContratoDoContratante(cpf);
-        boolean teste = quantidadeContrato > 0;
-        assertThat(teste).isTrue();
+        List<Contrato> listaContrato = contratoRepository.listarContratosDoContratante(cpf);
+        assertThat(listaContrato.isEmpty()).isFalse();
     }
 
     @Test
-    void quantidadeContratoDoContratanteNulo() {
-        String cpf = "12334556742";
-        int quantidadeContrato = contratanteRepository.quantidadeContratoDoContratante(cpf);
-        boolean teste = quantidadeContrato > 0;
-        assertThat(teste).isFalse();
-    }
-
-    @Test
-    void contratanteExiste() {
+    public void listarContratosDoEndereco() {
         String cpf = "05433755363";
-        Optional<Contratante> teste = contratanteRepository.findById(cpf);
-        assertThat(teste.isPresent()).isTrue();
+        List<Contrato> listaPorContratante = contratoRepository.listarContratosDoContratante(cpf);
+        Endereco endereco = listaPorContratante.get(0).getEndereco();
+        List<Contrato> listaPorEndereco = contratoRepository.listarContratosDoEndereco(endereco.getId());
+        assertThat(listaPorEndereco.isEmpty()).isFalse();
     }
 
     @Test
-    void contratanteNaoExiste() {
-        String cpf = "123.456.789-01";
-        Optional<Contratante> teste = contratanteRepository.findById(cpf);
-        assertThat(teste.isPresent()).isFalse();
+    public void listarContratosAtivos() {
+        List<Contrato> listaContrato = contratoRepository.listarContratosAtivos();
+        assertThat(listaContrato.isEmpty()).isFalse();
+    }
+
+    @Test
+    public void listarContratosVencidos() {
+        List<Contrato> listaContrato = contratoRepository.listarContratosVencidos();
+        assertThat(listaContrato.isEmpty()).isFalse();
     }
 }

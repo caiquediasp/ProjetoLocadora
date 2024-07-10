@@ -14,32 +14,28 @@ public class EstoqueService {
     @Autowired
     private EstoqueRepository estoqueRepository;
 
-    public ResponseEntity<Integer> verificaEstoqueAndaime(int tamanho) {
+    public Integer verificaEstoqueAndaime(int tamanho) {
         contratoStatusValidation.validaStatusContrato();
-        Integer quantidade = estoqueRepository.verificaEstoqueAndaime(tamanho);
 
-        return ResponseEntity.ok(quantidade);
+        return estoqueRepository.verificaEstoqueAndaime(tamanho);
     }
 
-    public ResponseEntity<Integer> verificaEstoqueEscora(int tamanho) {
+    public Integer verificaEstoqueEscora(int tamanho) {
         contratoStatusValidation.validaStatusContrato();
-        Integer quantidade = estoqueRepository.verificaEstoqueEscora(tamanho);
 
-        return ResponseEntity.ok(quantidade);
+        return estoqueRepository.verificaEstoqueEscora(tamanho);
     }
 
-    public ResponseEntity<Integer> verificaEstoquePlataforma(int tamanho) {
+    public Integer verificaEstoquePlataforma(int tamanho) {
         contratoStatusValidation.validaStatusContrato();
-        Integer quantidade = estoqueRepository.verificaEstoquePlataforma(tamanho);
 
-        return ResponseEntity.ok(quantidade);
+        return estoqueRepository.verificaEstoquePlataforma(tamanho);
     }
 
-    public ResponseEntity<Integer> verificaEstoqueRoldana() {
+    public Integer verificaEstoqueRoldana() {
         contratoStatusValidation.validaStatusContrato();
-        Integer quantidade = estoqueRepository.verificaEstoqueRoldana();
 
-        return ResponseEntity.ok(quantidade);
+        return estoqueRepository.verificaEstoqueRoldana();
     }
 
 }

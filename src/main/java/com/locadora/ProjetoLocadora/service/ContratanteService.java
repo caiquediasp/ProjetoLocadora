@@ -17,33 +17,27 @@ public class ContratanteService {
     @Autowired
     CpfValidation cpfValidation;
 
-    public ResponseEntity<List<Contratante>> listarTodosContratantes() {
-        List<Contratante> listaContratante = contratanteRepository.findAll();
-
-        return ResponseEntity.ok(listaContratante);
+    public List<Contratante> listarTodosContratantes() {
+        return contratanteRepository.findAll();
     }
 
-    public ResponseEntity<Contratante> buscarContratantePorCpf(String cpf) {
+    public Contratante buscarContratantePorCpf(String cpf) {
         cpfValidation.validadorCpf(cpf);
 
-        Contratante contratante = contratanteRepository.findById(cpf)
+        return contratanteRepository.findById(cpf)
                 .orElseThrow(() -> new ContratanteNaoEncontradoException(cpf));
-
-        return ResponseEntity.ok(contratante);
     }
 
-    public ResponseEntity<Integer> quantidadeContratoDoContratante(String cpf) {
+    public Integer quantidadeContratoDoContratante(String cpf) {
         cpfValidation.validadorCpf(cpf);
 
         contratanteRepository.findById(cpf)
                 .orElseThrow(() -> new ContratanteNaoEncontradoException(cpf));
 
-        Integer quantidadeContrato = contratanteRepository.quantidadeContratoDoContratante(cpf);
-
-        return ResponseEntity.ok(quantidadeContrato);
+        return contratanteRepository.quantidadeContratoDoContratante(cpf);
     }
 
-    public ResponseEntity<Contratante> atualizarTelefone(String cpf, String telefone) {
+    public Contratante atualizarTelefone(String cpf, String telefone) {
         cpfValidation.validadorCpf(cpf);
 
          Contratante contratante = contratanteRepository.findById(cpf)
@@ -53,6 +47,6 @@ public class ContratanteService {
 
          contratanteRepository.save(contratante);
 
-         return ResponseEntity.ok(contratante);
+         return contratante;
     }
 }
