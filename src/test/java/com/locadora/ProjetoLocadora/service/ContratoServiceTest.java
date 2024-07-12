@@ -1,51 +1,24 @@
 package com.locadora.ProjetoLocadora.service;
 
-import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
-import com.locadora.ProjetoLocadora.repository.ContratoRepository;
-import com.locadora.ProjetoLocadora.repository.EnderecoRepository;
-import com.locadora.ProjetoLocadora.repository.PecasRepository;
 import com.locadora.ProjetoLocadora.util.*;
 import com.locadora.ProjetoLocadora.util.pecas.Andaime;
 import com.locadora.ProjetoLocadora.util.pecas.Escora;
 import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
 import com.locadora.ProjetoLocadora.util.pecas.Roldana;
-import com.locadora.ProjetoLocadora.validations.ContratoStatusValidation;
-import com.locadora.ProjetoLocadora.validations.CpfValidation;
-import com.locadora.ProjetoLocadora.validations.EstoqueValidation;
-import net.bytebuddy.asm.Advice;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class ContratoServiceTest {
-    @Mock
-    private ContratoRepository contratoRepository;
-    @Mock
-    private EnderecoRepository enderecoRepository;
-    @Mock
+    @Autowired
     private ContratoService contratoService;
-    @Mock
-    private ContratanteService contratanteService;
-    @Mock
-    private EstoqueValidation estoqueValidation;
-    @Mock
-    private CpfValidation cpfValidation;
 
     Contratante contratante = new Contratante("05433755363", "teste", "(xx)xxxxx-xxxx");
     Endereco endereco = new Endereco("12345-678", "teste", "teste", 1234);
@@ -57,66 +30,57 @@ class ContratoServiceTest {
     Contrato contrato = new Contrato(LocalDate.now(), LocalDate.now().plusDays(5L), FormaPagamento.PIX, endereco, contratante, pecas);
 
     @Test
-    void adicionarContrato() throws  Exception{
-        String cpf = "05433755363";
-        cpfValidation.validadorCpf(cpf);
-        estoqueValidation.verificaDisponibilidadePecas(pecas);
-
-        when(contratanteService.buscarContratantePorCpf(cpf)).thenReturn(contratante);
-        Contratante teste = contratanteService.buscarContratantePorCpf("05433755363");
-        assertThat(teste).isNotNull();
-
-        contratanteService.salvarContratante(teste);
-
-        when(enderecoRepository.verificarEnderecoExistente(endereco.getCep(),
-                endereco.getBairro(), endereco.getRua(), endereco.getNumero())).thenReturn(endereco);
-        enderecoRepository.verificarEnderecoExistente(endereco.getCep(),
-                endereco.getBairro(), endereco.getRua(), endereco.getNumero());
-        verify(enderecoRepository, times(1)).verificarEnderecoExistente
-                (endereco.getCep(), endereco.getBairro(), endereco.getRua(), endereco.getNumero());
-
-        contrato.setValorTotal(contrato.getPecas().valorTotal());
-        assertThat(contrato.getValorTotal()).isNotNull();
-
-        contrato.setStatus("ATIVO");
-
-        when(contratoService.adicionarContrato(contrato)).thenReturn(contrato);
-        Contrato testeContrato = contratoService.adicionarContrato(contrato);
-        assertThat(testeContrato).isNotNull();
+    void adicionarContrato() {
+        assertThat(contratoService.adicionarContrato(contrato)).isNotNull();
     }
 
     @Test
     void listarTodosContratos() {
-
+        assertThat(contratoService.listarTodosContratos()).isNotEmpty();
     }
 
     @Test
     void listarContratosDoContratante() {
-
+        assertThat(contratoService.listarContratosDoContratante("05433755363")).isNotEmpty();
     }
 
     @Test
     void listarContratosDoEndereco() {
-
+        List<Contrato> listaTeste = contratoService.listarContratosDoContratante("05433755363");
+        Contrato c = listaTeste.get(0);
+        assertThat(contratoService.listarContratosDoEndereco(c.getEndereco().getId())).isNotEmpty();
     }
 
     @Test
     void listarContratosAtivos() {
-
+        assertThat(contratoService.listarContratosAtivos()).isNotEmpty();
     }
 
     @Test
     void listarContratosVencidos() {
+        contrato.setStatus("VENCIDO");
+        contratoService.adicionarContrato(contrato);
 
+        assertThat(contratoService.listarContratosVencidos()).isNotEmpty();
     }
 
     @Test
     void buscarContratoPorId() {
+        List<Contrato> listaTeste = contratoService.listarContratosDoContratante("05433755363");
+        Contrato c = listaTeste.get(0);
 
+        assertThat(contratoService.buscarContratoPorId(c.getId())).isNotNull();
     }
 
     @Test
     void renovarContrato() {
+        List<Contrato> listaTeste = contratoService.listarContratosDoContratante("05433755363");
+        Contrato c = listaTeste.get(0);
+        pecas.getAndaime().setQtdAndaime(10);
+        pecas.getEscora().setQtdEscora(15);
+
+        assertThat(contratoService.renovarContrato(c.getId(), pecas,
+                LocalDate.now().plusDays(10), LocalDate.now().plusDays(27), FormaPagamento.AVISTA)).isNotNull();
     }
 
     @Test

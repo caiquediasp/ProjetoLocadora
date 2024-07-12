@@ -5,7 +5,6 @@ import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
 import com.locadora.ProjetoLocadora.util.Contratante;
 import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +16,8 @@ public class ContratanteService {
     @Autowired
     private CpfValidation cpfValidation;
 
-    public void salvarContratante(Contratante contratante) {
-        contratanteRepository.save(contratante);
+    public Contratante salvarContratante(Contratante contratante) {
+        return contratanteRepository.save(contratante);
     }
 
     public List<Contratante> listarTodosContratantes() {
