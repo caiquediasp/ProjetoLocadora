@@ -34,7 +34,7 @@ class ContratanteRepositoryTest {
 
     @BeforeEach
     void setup (){
-        Contratante contratante = new Contratante("05433755363", "teste", "(xx)xxxxx-xxxx");
+        Contratante contratante = new Contratante("42145065024", "teste", "(xx)xxxxx-xxxx");
         Endereco endereco = new Endereco("12345-678", "teste", "teste", 1234);
         Andaime andaime = new Andaime(5, 1);
         Escora escora = new Escora(5, 1);
@@ -48,7 +48,7 @@ class ContratanteRepositoryTest {
 
     @Test
     void quantidadeContratoDoContratante() {
-        String cpf = "05433755363";
+        String cpf = "42145065024";
         int quantidadeContrato = contratanteRepository.quantidadeContratoDoContratante(cpf);
         boolean teste = quantidadeContrato > 0;
         assertThat(teste).isTrue();
@@ -64,7 +64,7 @@ class ContratanteRepositoryTest {
 
     @Test
     void contratanteExiste() {
-        String cpf = "05433755363";
+        String cpf = "42145065024";
         Optional<Contratante> teste = contratanteRepository.findById(cpf);
         assertThat(teste.isPresent()).isTrue();
     }

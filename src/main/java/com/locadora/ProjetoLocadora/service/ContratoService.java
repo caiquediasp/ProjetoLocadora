@@ -26,8 +26,6 @@ public class ContratoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
     @Autowired
-    private PecasRepository pecasRepository;
-    @Autowired
     private ContratoStatusValidation contratoStatusValidation;
     @Autowired
     private EstoqueValidation estoqueValidation;

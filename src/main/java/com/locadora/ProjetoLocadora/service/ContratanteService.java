@@ -16,10 +16,6 @@ public class ContratanteService {
     @Autowired
     private CpfValidation cpfValidation;
 
-    public Contratante salvarContratante(Contratante contratante) {
-        return contratanteRepository.save(contratante);
-    }
-
     public List<Contratante> listarTodosContratantes() {
         return contratanteRepository.findAll();
     }

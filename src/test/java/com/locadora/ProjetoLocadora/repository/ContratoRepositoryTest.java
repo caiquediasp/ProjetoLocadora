@@ -26,7 +26,7 @@ public class ContratoRepositoryTest {
 
     @BeforeEach
     void setup() {
-        Contratante contratante = new Contratante("05433755363", "teste", "(xx)xxxxx-xxxx");
+        Contratante contratante = new Contratante("42145065024", "teste", "(xx)xxxxx-xxxx");
         Endereco endereco = new Endereco("12345-678", "teste", "teste", 1234);
         Andaime andaime = new Andaime(5, 1);
         Escora escora = new Escora(5, 1);
@@ -44,14 +44,14 @@ public class ContratoRepositoryTest {
 
     @Test
     public void listarContratosDoContratante() {
-        String cpf = "05433755363";
+        String cpf = "42145065024";
         List<Contrato> listaContrato = contratoRepository.listarContratosDoContratante(cpf);
         assertThat(listaContrato.isEmpty()).isFalse();
     }
 
     @Test
     public void listarContratosDoEndereco() {
-        String cpf = "05433755363";
+        String cpf = "42145065024";
         List<Contrato> listaPorContratante = contratoRepository.listarContratosDoContratante(cpf);
         Endereco endereco = listaPorContratante.get(0).getEndereco();
         List<Contrato> listaPorEndereco = contratoRepository.listarContratosDoEndereco(endereco.getId());
