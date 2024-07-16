@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatList;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +29,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 
 @SpringBootTest
 class ContratoServiceTest {
@@ -90,6 +91,7 @@ class ContratoServiceTest {
 
         List<Contrato> listaResultado = contratoService.listarTodosContratos();
 
+        verify(contratoStatusValidation).validaStatusContrato();
         verify(contratoRepository).findAll();
         assertThatList(listaResultado).isNotEmpty();
     }
@@ -102,6 +104,7 @@ class ContratoServiceTest {
 
         List<Contrato> listaResultado = contratoService.listarContratosDoContratante(contratante.getCpf());
 
+        verify(contratoStatusValidation).validaStatusContrato();
         verify(contratoRepository).listarContratosDoContratante(contratante.getCpf());
         assertThatList(listaResultado).isNotEmpty();
     }
@@ -114,6 +117,7 @@ class ContratoServiceTest {
 
         List<Contrato> listaResultado = contratoService.listarContratosDoEndereco(contrato.getEndereco().getId());
 
+        verify(contratoStatusValidation).validaStatusContrato();
         verify(contratoRepository).listarContratosDoEndereco(contrato.getEndereco().getId());
         assertThatList(listaResultado).isNotEmpty();
     }
@@ -126,6 +130,7 @@ class ContratoServiceTest {
 
         List<Contrato> listaResultado = contratoService.listarContratosAtivos();
 
+        verify(contratoStatusValidation).validaStatusContrato();
         verify(contratoRepository).listarContratosAtivos();
         assertThatList(listaResultado).isNotEmpty();
     }
@@ -138,6 +143,7 @@ class ContratoServiceTest {
 
         List<Contrato> listaResultado = contratoService.listarContratosVencidos();
 
+        verify(contratoStatusValidation).validaStatusContrato();
         verify(contratoRepository).listarContratosVencidos();
         assertThatList(listaResultado).isNotEmpty();
     }
@@ -148,17 +154,65 @@ class ContratoServiceTest {
 
         Contrato resultado = contratoService.buscarContratoPorId(contrato.getId());
 
+        verify(contratoStatusValidation).validaStatusContrato();
         verify(contratoRepository).findById(contrato.getId());
         assertNotNull(resultado);
     }
 
     @Test
     void renovarContrato() {
-        
+        Andaime andaime = new Andaime(10, 1);
+        Escora escora = new Escora(10, 1);
+        Plataforma plataforma = new Plataforma(10, 1);
+        Roldana roldana = new Roldana(10);
+        Pecas pecas = new Pecas(andaime, escora, plataforma, roldana);
+        LocalDate dataRenovacao =  LocalDate.now().plusDays(5L);
+        LocalDate dataDevolucao = LocalDate.now().plusDays(10L);
+        FormaPagamento formaPagamento = FormaPagamento.PIX;
+
+        contrato.setPecas(pecas);
+        contrato.setDataLocacao(dataRenovacao);
+        contrato.setDataDevolucao(dataDevolucao);
+        contrato.setFormaPagamento(formaPagamento);
+        contrato.setValorTotal(pecas.valorTotal());
+
+        when(enderecoRepository.verificarEnderecoExistente(anyString(), anyString(), anyString(), anyInt())).thenReturn(endereco);
+        when(contratoRepository.findById(contrato.getId())).thenReturn(Optional.ofNullable(contrato));
+
+        Contrato resultado = contratoService.renovarContrato(contrato.getId(), pecas,
+                dataRenovacao, dataDevolucao, formaPagamento);
+
+        verify(contratoStatusValidation).validaStatusContrato();
+        verify(estoqueValidation).verificaDisponibilidadePecas(pecas);
+        verify(contratoRepository).findById(contrato.getId());
+        verify(contratoRepository).save(contrato);
+
+        assertNotNull(resultado);
+    }
+
+    @Test
+    void renovarContratoLancaExcecao() {
+        Andaime andaime = new Andaime(10, 1);
+        Escora escora = new Escora(10, 1);
+        Plataforma plataforma = new Plataforma(10, 1);
+        Roldana roldana = new Roldana(10);
+        Pecas pecas = new Pecas(andaime, escora, plataforma, roldana);
+        when(enderecoRepository.verificarEnderecoExistente(anyString(), anyString(), anyString(), anyInt())).thenReturn(endereco);
+        when(contratoRepository.findById(contrato.getId())).thenReturn(Optional.ofNullable(contrato));
+
+        assertThrows(ResponseStatusException.class, () -> contratoService.renovarContrato("", pecas,
+                LocalDate.now().plusDays(5L), LocalDate.now().plusDays(10L), FormaPagamento.PIX));
     }
 
     @Test
     void excluirContrato() {
+        when(contratoRepository.findById(contrato.getId())).thenReturn(Optional.ofNullable(contrato));
 
+        ResponseEntity resultado = contratoService.excluirContrato(contrato.getId());
+
+        verify(contratoStatusValidation).validaStatusContrato();
+        verify(contratoRepository).findById(contrato.getId());
+        verify(contratoRepository).deleteById(contrato.getId());
+        assertNotNull(resultado);
     }
 }
