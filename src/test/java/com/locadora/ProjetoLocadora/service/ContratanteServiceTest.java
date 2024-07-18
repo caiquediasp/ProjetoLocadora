@@ -52,7 +52,6 @@ class ContratanteServiceTest {
         MockitoAnnotations.openMocks(this);
         contrato.setStatus("ATIVO");
         contrato.setValorTotal(pecas.valorTotal());
-        contratoRepository.save(contrato);
     }
 
     @Test

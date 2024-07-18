@@ -98,27 +98,33 @@ class ContratoServiceTest {
 
     @Test
     void listarContratosDoContratante() {
+        String cpf = "42145065024";
         List<Contrato> listaTeste = new ArrayList<Contrato>();
         listaTeste.add(contrato);
-        when(contratoRepository.listarContratosDoContratante(contratante.getCpf())).thenReturn(listaTeste);
+        when(contratanteRepository.findById(cpf)).thenReturn(Optional.ofNullable(contratante));
+        when(contratoRepository.listarContratosDoContratante(cpf)).thenReturn(listaTeste);
 
-        List<Contrato> listaResultado = contratoService.listarContratosDoContratante(contratante.getCpf());
+        List<Contrato> listaResultado = contratoService.listarContratosDoContratante(cpf);
 
         verify(contratoStatusValidation).validaStatusContrato();
-        verify(contratoRepository).listarContratosDoContratante(contratante.getCpf());
+        verify(contratanteRepository).findById(cpf);
+        verify(contratoRepository).listarContratosDoContratante(cpf);
         assertThatList(listaResultado).isNotEmpty();
     }
 
     @Test
     void listarContratosDoEndereco() {
+        String idEndereco = endereco.getId();
         List<Contrato> listaTeste = new ArrayList<Contrato>();
         listaTeste.add(contrato);
-        when(contratoRepository.listarContratosDoEndereco(contrato.getEndereco().getId())).thenReturn(listaTeste);
+        when(enderecoRepository.findById(idEndereco)).thenReturn(Optional.ofNullable(endereco));
+        when(contratoRepository.listarContratosDoEndereco(idEndereco)).thenReturn(listaTeste);
 
-        List<Contrato> listaResultado = contratoService.listarContratosDoEndereco(contrato.getEndereco().getId());
+        List<Contrato> listaResultado = contratoService.listarContratosDoEndereco(idEndereco);
 
         verify(contratoStatusValidation).validaStatusContrato();
-        verify(contratoRepository).listarContratosDoEndereco(contrato.getEndereco().getId());
+        verify(enderecoRepository).findById(idEndereco);
+        verify(contratoRepository).listarContratosDoEndereco(idEndereco);
         assertThatList(listaResultado).isNotEmpty();
     }
 
