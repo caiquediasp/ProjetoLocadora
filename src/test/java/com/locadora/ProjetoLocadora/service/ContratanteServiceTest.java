@@ -81,7 +81,18 @@ class ContratanteServiceTest {
 
     @Test
     void quantidadeContratoDoContratante() {
+        String cpf = "42145065024";
+        List<Contrato> listaContrato = new ArrayList<Contrato>();
+        listaContrato.add(contrato);
 
+        when(contratanteRepository.findById(cpf)).thenReturn(Optional.ofNullable(contratante));
+        when(contratanteRepository.quantidadeContratoDoContratante(cpf)).thenReturn(listaContrato.size());
+
+        int resultado = contratanteService.quantidadeContratoDoContratante(cpf);
+        verify(cpfValidation).validadorCpf(cpf);
+        verify(contratanteRepository).findById(cpf);
+        verify(contratanteRepository).quantidadeContratoDoContratante(cpf);
+        assertThat(resultado).isEqualTo(1);
     }
 
     @Test
