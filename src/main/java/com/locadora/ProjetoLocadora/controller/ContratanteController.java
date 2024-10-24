@@ -1,7 +1,7 @@
 package com.locadora.ProjetoLocadora.controller;
 
 import com.locadora.ProjetoLocadora.service.ContratanteService;
-import com.locadora.ProjetoLocadora.util.Contratante;
+import com.locadora.ProjetoLocadora.entities.Contratante;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

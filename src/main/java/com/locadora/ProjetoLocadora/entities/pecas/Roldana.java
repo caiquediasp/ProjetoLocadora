@@ -1,6 +1,5 @@
-package com.locadora.ProjetoLocadora.util.pecas;
+package com.locadora.ProjetoLocadora.entities.pecas;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

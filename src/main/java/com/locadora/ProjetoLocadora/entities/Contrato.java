@@ -1,4 +1,4 @@
-package com.locadora.ProjetoLocadora.util;
+package com.locadora.ProjetoLocadora.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tb_contrato")
+@Table(name = "contrato")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")

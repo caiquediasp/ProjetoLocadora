@@ -2,7 +2,7 @@ package com.locadora.ProjetoLocadora.validations;
 
 import com.locadora.ProjetoLocadora.exceptions.QuantidadeInvalidaException;
 import com.locadora.ProjetoLocadora.repository.EstoqueRepository;
-import com.locadora.ProjetoLocadora.util.Pecas;
+import com.locadora.ProjetoLocadora.entities.Pecas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.locadora.ProjetoLocadora.util;
+package com.locadora.ProjetoLocadora.entities;
 
 public enum FormaPagamento {
     DEBITO,

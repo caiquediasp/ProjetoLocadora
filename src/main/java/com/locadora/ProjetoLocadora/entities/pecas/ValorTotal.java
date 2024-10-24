@@ -1,4 +1,4 @@
-package com.locadora.ProjetoLocadora.util.pecas;
+package com.locadora.ProjetoLocadora.entities.pecas;
 
 public interface ValorTotal {
     void valorTotal();

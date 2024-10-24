@@ -1,6 +1,6 @@
 package com.locadora.ProjetoLocadora.repository;
 
-import com.locadora.ProjetoLocadora.util.Contrato;
+import com.locadora.ProjetoLocadora.entities.Contrato;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,27 +13,27 @@ import java.util.List;
 public interface ContratoRepository extends JpaRepository<Contrato, String> {
     @Transactional
     @Modifying
-    @Query(value = "UPDATE tb_contrato SET status = 'VENCIDO' WHERE data_devolucao < current_date"
+    @Query(value = "UPDATE contrato SET status = 'VENCIDO' WHERE data_devolucao < current_date"
             , nativeQuery = true)
     void atualizarStatusContrato();
 
-    @Query(value = "SELECT * FROM tb_contrato WHERE data_devolucao < current_date AND status != 'VENCIDO'"
+    @Query(value = "SELECT * FROM contrato WHERE data_devolucao < current_date AND status != 'VENCIDO'"
             , nativeQuery = true)
     List<Contrato> validarStatusContratos();
 
-    @Query(value = "SELECT * FROM tb_contrato c WHERE c.cpf_contratante = :cpf"
+    @Query(value = "SELECT * FROM contrato c WHERE c.cpf_contratante = :cpf"
             , nativeQuery = true)
     List<Contrato> listarContratosDoContratante(String cpf);
 
-    @Query(value = "SELECT * FROM tb_contrato c WHERE c.id_endereco = :id"
+    @Query(value = "SELECT * FROM contrato c WHERE c.id_endereco = :id"
             , nativeQuery = true)
     List<Contrato> listarContratosDoEndereco(String id);
 
-    @Query(value = "SELECT * FROM tb_contrato WHERE status = 'ATIVO'"
+    @Query(value = "SELECT * FROM contrato WHERE status = 'ATIVO'"
            , nativeQuery = true)
     List<Contrato> listarContratosAtivos();
 
-    @Query(value = "SELECT * FROM tb_contrato c WHERE status = 'VENCIDO'"
+    @Query(value = "SELECT * FROM contrato c WHERE status = 'VENCIDO'"
            , nativeQuery = true)
     List<Contrato> listarContratosVencidos();
 

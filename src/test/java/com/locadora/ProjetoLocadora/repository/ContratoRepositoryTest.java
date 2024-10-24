@@ -1,10 +1,10 @@
 package com.locadora.ProjetoLocadora.repository;
 
-import com.locadora.ProjetoLocadora.util.*;
-import com.locadora.ProjetoLocadora.util.pecas.Andaime;
-import com.locadora.ProjetoLocadora.util.pecas.Escora;
-import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
-import com.locadora.ProjetoLocadora.util.pecas.Roldana;
+import com.locadora.ProjetoLocadora.entities.*;
+import com.locadora.ProjetoLocadora.entities.pecas.Andaime;
+import com.locadora.ProjetoLocadora.entities.pecas.Escora;
+import com.locadora.ProjetoLocadora.entities.pecas.Plataforma;
+import com.locadora.ProjetoLocadora.entities.pecas.Roldana;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

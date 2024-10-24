@@ -2,9 +2,9 @@ package com.locadora.ProjetoLocadora.controller;
 
 
 import com.locadora.ProjetoLocadora.service.ContratoService;
-import com.locadora.ProjetoLocadora.util.Contrato;
-import com.locadora.ProjetoLocadora.util.FormaPagamento;
-import com.locadora.ProjetoLocadora.util.Pecas;
+import com.locadora.ProjetoLocadora.entities.Contrato;
+import com.locadora.ProjetoLocadora.entities.FormaPagamento;
+import com.locadora.ProjetoLocadora.entities.Pecas;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

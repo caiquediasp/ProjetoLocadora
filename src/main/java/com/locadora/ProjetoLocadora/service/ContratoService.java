@@ -3,7 +3,7 @@ package com.locadora.ProjetoLocadora.service;
 import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.exceptions.ContratoNaoEncontradoException;
 import com.locadora.ProjetoLocadora.repository.*;
-import com.locadora.ProjetoLocadora.util.*;
+import com.locadora.ProjetoLocadora.entities.*;
 import com.locadora.ProjetoLocadora.validations.ContratoStatusValidation;
 import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import com.locadora.ProjetoLocadora.validations.EstoqueValidation;

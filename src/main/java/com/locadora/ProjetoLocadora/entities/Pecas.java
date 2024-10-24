@@ -1,14 +1,14 @@
-package com.locadora.ProjetoLocadora.util;
+package com.locadora.ProjetoLocadora.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.locadora.ProjetoLocadora.generator.IdGenerator;
-import com.locadora.ProjetoLocadora.util.pecas.Andaime;
-import com.locadora.ProjetoLocadora.util.pecas.Escora;
-import com.locadora.ProjetoLocadora.util.pecas.Plataforma;
-import com.locadora.ProjetoLocadora.util.pecas.Roldana;
+import com.locadora.ProjetoLocadora.entities.pecas.Andaime;
+import com.locadora.ProjetoLocadora.entities.pecas.Escora;
+import com.locadora.ProjetoLocadora.entities.pecas.Plataforma;
+import com.locadora.ProjetoLocadora.entities.pecas.Roldana;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_pecas")
+@Table(name = "pecas")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")

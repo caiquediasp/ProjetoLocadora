@@ -2,7 +2,7 @@ package com.locadora.ProjetoLocadora.service;
 
 import com.locadora.ProjetoLocadora.exceptions.ContratanteNaoEncontradoException;
 import com.locadora.ProjetoLocadora.repository.ContratanteRepository;
-import com.locadora.ProjetoLocadora.util.Contratante;
+import com.locadora.ProjetoLocadora.entities.Contratante;
 import com.locadora.ProjetoLocadora.validations.CpfValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

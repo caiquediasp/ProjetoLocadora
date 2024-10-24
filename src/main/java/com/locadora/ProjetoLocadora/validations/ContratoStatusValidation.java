@@ -1,7 +1,7 @@
 package com.locadora.ProjetoLocadora.validations;
 
 import com.locadora.ProjetoLocadora.repository.ContratoRepository;
-import com.locadora.ProjetoLocadora.util.Contrato;
+import com.locadora.ProjetoLocadora.entities.Contrato;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
